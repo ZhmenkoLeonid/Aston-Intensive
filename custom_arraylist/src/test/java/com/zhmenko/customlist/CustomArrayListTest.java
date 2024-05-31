@@ -229,7 +229,7 @@ class CustomArrayListTest {
 
     @ParameterizedTest(name = "{index} - <{0}>")
     @ValueSource(ints = {-1, 2, Integer.MAX_VALUE, Integer.MIN_VALUE})
-    void givenDataFilledList_WhenRemoveElementByWrongIndex_ThenSizeAndListShouldntChanged(final int index) {
+    void givenDataFilledList_WhenRemoveElementByWrongIndex_ThenShouldThrowException(final int index) {
         // given
         list.add("Hello");
         list.add(", World");
@@ -298,5 +298,29 @@ class CustomArrayListTest {
         String actual = list.toString();
         // then
         assertEquals("[Hello, , World]", actual);
+    }
+
+    @Test
+    void givenDataFilledList_WhenSetElement_ThenShouldCorrectListChange() {
+        // given
+        list.add("Hello");
+        list.add(", World");
+        // when
+        list.set(0, "Bye");
+        // then
+        assertEquals(2, list.getSize());
+        assertEquals("Bye", list.get(0));
+    }
+
+    @ParameterizedTest(name = "{index} - <{0}>")
+    @ValueSource(ints = {-1, 2, Integer.MAX_VALUE, Integer.MIN_VALUE})
+    void givenDataFilledList_WhenSetElementByWrongIndex_ThenShouldThrowException(final int index) {
+        // given
+        list.add("Hello");
+        list.add(", World");
+        // when
+        Executable action = () -> list.set(index, "I want to be in this list, please!");
+        // then
+        assertThrows(IndexOutOfBoundsException.class, action);
     }
 }
