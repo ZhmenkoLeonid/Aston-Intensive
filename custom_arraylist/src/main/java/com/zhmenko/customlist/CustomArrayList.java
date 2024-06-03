@@ -1,5 +1,7 @@
 package com.zhmenko.customlist;
 
+import com.zhmenko.exception.OutOfCapacityException;
+
 import java.util.Objects;
 
 /**
@@ -123,7 +125,8 @@ public class CustomArrayList<E> {
         final int newSize = size - 1;
         if (newSize > objectIndex)
             System.arraycopy(elements, objectIndex + 1, elements, objectIndex, newSize - objectIndex);
-        elements[size = newSize] = null;
+        elements[newSize] = null;
+        size = newSize;
         return true;
     }
 
@@ -140,7 +143,8 @@ public class CustomArrayList<E> {
         final int newSize = size - 1;
         if (newSize > index)
             System.arraycopy(elements, index + 1, elements, index, newSize - index);
-        elements[size = newSize] = null;
+        elements[newSize] = null;
+        size = newSize;
         return (E) removedValue;
     }
 
@@ -225,10 +229,10 @@ public class CustomArrayList<E> {
     /**
      * method for increase capacity
      *
-     * @throws OutOfMemoryError if capacity needed to be more than possible
+     * @throws OutOfCapacityException if capacity needed to be more than possible
      */
     private void ensureCapacity(int minCapacity) {
-        if (minCapacity < 0) throw new OutOfMemoryError("minCapacity must be > 0");
+        if (minCapacity < 0) throw new OutOfCapacityException("capacity overflow occurred");
         // Current capacity >= minCapacity -> we don't need to increment current length
         if (minCapacity - elements.length <= 0) return;
 

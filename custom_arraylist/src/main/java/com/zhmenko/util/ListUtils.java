@@ -27,7 +27,7 @@ public class ListUtils {
      * @param comparator the comparator to use for sorting
      * @param <T> the type of elements in the list
      */
-    public static <T> void sort(final CustomArrayList<T> list, Comparator<T> comparator) {
+    public static <T> void sort(final CustomArrayList<T> list, final Comparator<T> comparator) {
         quickSort(list, comparator, 0, list.getSize() - 1);
     }
 
@@ -40,7 +40,7 @@ public class ListUtils {
         }
     }
 
-    private static <T> void quickSort(final CustomArrayList<T> list, Comparator<T> comparator,
+    private static <T> void quickSort(final CustomArrayList<T> list, final Comparator<T> comparator,
                                       final int low, final int high) {
         if (low < high) {
             int pivot = partition(list, comparator, low, high);
@@ -64,7 +64,7 @@ public class ListUtils {
     }
 
 
-    private static <T> int partition(final CustomArrayList<T> list, Comparator<T> comparator,
+    private static <T> int partition(final CustomArrayList<T> list, final Comparator<T> comparator,
                                      final int low, final int high) {
         T pivot = list.get(high);
         int wall = (low - 1);
