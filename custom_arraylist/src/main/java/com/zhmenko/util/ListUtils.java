@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 /**
  * Util class containing various methods for CustomArrayList class
+ *
  * @see com.zhmenko.customlist.CustomArrayList
  */
 public class ListUtils {
@@ -14,8 +15,9 @@ public class ListUtils {
 
     /**
      * QuickSort implementation for CustomArrayList
+     *
      * @param list the list to be sorted
-     * @param <T> the type of elements in the list, must implements Comparable interface
+     * @param <T>  the type of elements in the list, must implements Comparable interface
      */
     public static <T extends Comparable<? super T>> void sort(final CustomArrayList<T> list) {
         quickSort(list, 0, list.getSize() - 1);
@@ -23,9 +25,10 @@ public class ListUtils {
 
     /**
      * QuickSort implementation for CustomArrayList
-     * @param list the list to be sorted
+     *
+     * @param list       the list to be sorted
      * @param comparator the comparator to use for sorting
-     * @param <T> the type of elements in the list
+     * @param <T>        the type of elements in the list
      */
     public static <T> void sort(final CustomArrayList<T> list, final Comparator<T> comparator) {
         quickSort(list, comparator, 0, list.getSize() - 1);
@@ -80,10 +83,11 @@ public class ListUtils {
 
     /**
      * Swap elements of a list in the given indexes
-     * @param list list in which we want swap elements
-     * @param firstElemIndex to swap
+     *
+     * @param list            list in which we want swap elements
+     * @param firstElemIndex  to swap
      * @param secondElemIndex to swap
-     * @param <T> list element type
+     * @param <T>             list element type
      */
     private static <T> void swap(final CustomArrayList<T> list, final int firstElemIndex, final int secondElemIndex) {
         T temp = list.get(firstElemIndex);

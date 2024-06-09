@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Custom ArrayList implementation with only few basic methods
+ *
  * @param <E> the type of elements in this list
  */
 public class CustomArrayList<E> {
@@ -26,6 +27,7 @@ public class CustomArrayList<E> {
 
     /**
      * Constructs a new list with the specified capacity
+     *
      * @param capacity initial capacity
      */
     public CustomArrayList(final int capacity) {
@@ -35,6 +37,7 @@ public class CustomArrayList<E> {
 
     /**
      * Returns the number of elements
+     *
      * @return list size
      */
     public int getSize() {
@@ -43,6 +46,7 @@ public class CustomArrayList<E> {
 
     /**
      * Returns true if list not contains elements
+     *
      * @return true if list is empty
      */
     public boolean isEmpty() {
@@ -51,6 +55,7 @@ public class CustomArrayList<E> {
 
     /**
      * Check containing of element in list
+     *
      * @param element element whose presence in this list is to be tested
      * @return true if list contains object
      */
@@ -60,6 +65,7 @@ public class CustomArrayList<E> {
 
     /**
      * Add element to list
+     *
      * @param element element to be added to this collection
      * @return true if element successfully added
      */
@@ -84,6 +90,7 @@ public class CustomArrayList<E> {
 
     /**
      * Add elements of the specified array to the end of the list
+     *
      * @param array - array containing elements to be added to this list
      * @return true if all array elements successfully added
      */
@@ -97,6 +104,7 @@ public class CustomArrayList<E> {
 
     /**
      * Add elements of the specified array to the specified index
+     *
      * @param index index at which to insert the first element from the
      *              specified array
      * @param array array containing elements to be added to this list
@@ -132,6 +140,7 @@ public class CustomArrayList<E> {
 
     /**
      * Removes element at the specified index and returns the removed element
+     *
      * @param index the index of the element to be removed
      * @return removed element
      * @throws IndexOutOfBoundsException if the index is out of bounds
@@ -159,7 +168,6 @@ public class CustomArrayList<E> {
     }
 
     /**
-     *
      * @param index index of the element to return
      * @return the element at the given index
      * @throws IndexOutOfBoundsException if the index is out of bounds
@@ -187,6 +195,7 @@ public class CustomArrayList<E> {
 
     /**
      * Find the first entry of the specified element in the list
+     *
      * @param element element to search for
      * @return first entry element index if element found, else return -1
      */

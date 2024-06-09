@@ -21,7 +21,7 @@ class CustomArrayListTest {
     @ParameterizedTest(name = "{index} - <{0}>")
     @ValueSource(strings = {"World", "", " "})
     @NullSource
-    void givenEmptyList_WhenAddElementThenSizeShouldIncreaseAndListChangedCorrectly(final String word) {
+    void givenEmptyList_WhenAddElement_ThenSizeShouldIncreaseAndListChangedCorrectly(final String word) {
         //given
 
         //when
@@ -102,7 +102,7 @@ class CustomArrayListTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 5, 10, 15, 200, 10000,200000})
+    @ValueSource(ints = {0, 1, 5, 10, 15, 200, 10000, 200000})
     void givenEmptyList_WhenAddElements_ThenSizeShouldIncreaseAndListChangedCorrectly(int size) {
         // given
         String dummy = "dummy";
@@ -277,6 +277,7 @@ class CustomArrayListTest {
         // then
         assertEquals(-1, helloIndex);
     }
+
     @Test
     void givenDataFilledList_WhenClearList_ThenSizeShouldBeZeroAndListEmpty() {
         // given
