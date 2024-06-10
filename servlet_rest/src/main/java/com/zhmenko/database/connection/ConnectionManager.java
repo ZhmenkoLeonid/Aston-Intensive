@@ -1,4 +1,4 @@
-package com.zhmenko.connection;
+package com.zhmenko.database.connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

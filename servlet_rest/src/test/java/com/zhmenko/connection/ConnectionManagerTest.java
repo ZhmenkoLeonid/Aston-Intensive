@@ -1,6 +1,7 @@
 package com.zhmenko.connection;
 
 import com.google.inject.Inject;
+import com.zhmenko.database.connection.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

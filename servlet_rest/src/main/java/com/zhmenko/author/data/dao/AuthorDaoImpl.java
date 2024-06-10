@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.zhmenko.author.data.mapper.AuthorResultSetMapper;
 import com.zhmenko.author.data.model.AuthorEntity;
 import com.zhmenko.book.data.dao.BookDao;
-import com.zhmenko.connection.ConnectionManager;
+import com.zhmenko.database.connection.ConnectionManager;
 import com.zhmenko.exception.AuthorNotFoundException;
 import com.zhmenko.exception.SQLRuntimeException;
 import org.apache.logging.log4j.LogManager;

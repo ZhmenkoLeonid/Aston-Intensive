@@ -2,7 +2,7 @@ package com.zhmenko.user.data.dao;
 
 import com.google.inject.Inject;
 import com.zhmenko.book.data.dao.BookDao;
-import com.zhmenko.connection.ConnectionManager;
+import com.zhmenko.database.connection.ConnectionManager;
 import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.exception.SQLRuntimeException;
 import com.zhmenko.exception.UserNotFoundException;

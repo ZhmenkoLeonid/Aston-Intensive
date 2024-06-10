@@ -1,7 +1,8 @@
-package com.zhmenko.connection;
+package com.zhmenko.database.connection;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zhmenko.database.migration.FlywayMigration;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,5 +27,6 @@ public class ConnectionManagerImpl implements ConnectionManager {
     private static void initDataSource() {
         HikariConfig config = new HikariConfig(DATASOURCE_PROPERTIES_PATH);
         DATA_SOURCE = new HikariDataSource(config);
+        new FlywayMigration().migrate(DATA_SOURCE);
     }
 }

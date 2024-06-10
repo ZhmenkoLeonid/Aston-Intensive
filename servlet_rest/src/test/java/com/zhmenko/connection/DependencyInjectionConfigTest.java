@@ -6,6 +6,7 @@ import com.zhmenko.author.data.dao.AuthorDao;
 import com.zhmenko.author.data.dao.AuthorDaoImpl;
 import com.zhmenko.book.data.dao.BookDao;
 import com.zhmenko.book.data.dao.BookDaoImpl;
+import com.zhmenko.database.connection.ConnectionManager;
 import com.zhmenko.user.data.dao.UserDao;
 import com.zhmenko.user.data.dao.UserDaoImpl;
 import com.zhmenko.user_book.data.dao.UserBookDao;
