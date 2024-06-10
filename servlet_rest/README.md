@@ -194,6 +194,7 @@
 - Guice - внедрение зависимостей
 - PostgreSQL - СУБД
 - HikariCP - connection pool
+- Flyway - версионная миграция бд
 - GSON - работа с json строками
 - Mapstruct (DTO <-> Entity преобразование, кодогенерация)
 - Maven (сборка)
