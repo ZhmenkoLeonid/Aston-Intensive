@@ -49,14 +49,11 @@ CREATE TABLE books_users
     CONSTRAINT pk_book_id_user_id PRIMARY KEY (user_id, book_id)
 );
 
-ALTER TABLE books
-    ADD CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENCES authors (id);
+ALTER TABLE books ADD CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENCES authors (id);
 
-ALTER TABLE books_users
-    ADD CONSTRAINT fk_users_books_users FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE books_users ADD CONSTRAINT fk_users_books_users FOREIGN KEY (user_id) REFERENCES users (id);
 
-ALTER TABLE books_users
-    ADD CONSTRAINT fk_users_books_books FOREIGN KEY (book_id) REFERENCES books (id);
+ALTER TABLE books_users ADD CONSTRAINT fk_users_books_books FOREIGN KEY (book_id) REFERENCES books (id);
 
 INSERT INTO authors(first_name, second_name, third_name)
 VALUES ('Abel', 'Latoya', 'Abraham');
