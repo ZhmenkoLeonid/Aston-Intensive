@@ -28,7 +28,7 @@ public final class ServletUtils {
             response.setStatus(responseStatus);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().println(jsonString);
+            response.getWriter().println("some new string to each response" + jsonString);
             response.getWriter().flush();
         } catch (IOException ioException) {
             throw new RuntimeException(ioException.getMessage());
