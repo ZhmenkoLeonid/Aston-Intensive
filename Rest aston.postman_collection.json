@@ -1,0 +1,306 @@
+{
+	"info": {
+		"_postman_id": "0029d163-8e67-4247-845a-8a4b23c354ee",
+		"name": "Rest aston",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36025947"
+	},
+	"item": [
+		{
+			"name": "books",
+			"item": [
+				{
+					"name": "book get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/servlet_rest_war/books/4"
+					},
+					"response": []
+				},
+				{
+					"name": "book post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"book name\",\r\n    \"author_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/1"
+					},
+					"response": []
+				},
+				{
+					"name": "book put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"book name 2\",\r\n    \"author_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/2"
+					},
+					"response": []
+				},
+				{
+					"name": "book delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"book name 2\",\r\n    \"author_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "user get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/servlet_rest_war/users/18"
+					},
+					"response": []
+				},
+				{
+					"name": "user put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"name\": \"22\",\r\n    \"email\": \"1\",\r\n    \"country\": \"lol\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/5"
+					},
+					"response": []
+				},
+				{
+					"name": "user post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"new user\",\r\n    \"email\": \"lollmao@maoi.ru\",\r\n    \"country\": \"RUS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "user delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"22\",\r\n    \"email\": \"1\",\r\n    \"country\": \"lol\",\r\n    \"booksId\": [4, 2]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/5"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authors",
+			"item": [
+				{
+					"name": "author get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				},
+				{
+					"name": "author post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"hello\",\r\n    \"second_name\": \"my\",\r\n    \"third_name\": \"world\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/"
+					},
+					"response": []
+				},
+				{
+					"name": "author put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"first_name\": \"hell3\",\r\n    \"second_name\": \"m2\",\r\n    \"third_name\": \"worl1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				},
+				{
+					"name": "author delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usersbooks",
+			"item": [
+				{
+					"name": "usersbooks post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 4,\r\n    \"books_id\": [-1, 11]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/usersbooks/"
+					},
+					"response": []
+				},
+				{
+					"name": "usersbooks delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 4,\r\n    \"books_id\": [-1, 11]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/usersbooks/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
