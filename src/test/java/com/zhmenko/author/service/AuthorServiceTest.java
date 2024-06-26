@@ -7,7 +7,6 @@ import com.zhmenko.author.mapper.AuthorMapper;
 import com.zhmenko.author.model.AuthorInsertRequest;
 import com.zhmenko.author.model.AuthorModifyRequest;
 import com.zhmenko.author.model.AuthorResponse;
-import com.zhmenko.author.validator.AuthorValidator;
 import com.zhmenko.book.data.model.BookEntity;
 import com.zhmenko.exception.AuthorNotFoundException;
 import com.zhmenko.exception.BadRequestException;
@@ -15,14 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -36,8 +33,6 @@ class AuthorServiceTest extends AbstractTest {
 
     @Mock
     private AuthorMapper mapper;
-    @Spy
-    private AuthorValidator validator;
 
     @Test
     void testAddAuthor() {

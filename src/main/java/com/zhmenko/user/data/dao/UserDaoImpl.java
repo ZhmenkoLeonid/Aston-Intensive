@@ -20,7 +20,6 @@ import org.hibernate.jpa.SpecHints;
 import org.hibernate.query.Query;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Dao for user CRUD operations

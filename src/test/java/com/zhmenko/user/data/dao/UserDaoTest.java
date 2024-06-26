@@ -3,7 +3,6 @@ package com.zhmenko.user.data.dao;
 import com.zhmenko.AbstractDaoTest;
 import com.zhmenko.book.data.model.BookEntity;
 import com.zhmenko.exception.BadRequestException;
-import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.exception.UserNotFoundException;
 import com.zhmenko.user.data.model.UserEntity;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -9,7 +9,10 @@ import com.zhmenko.user.model.request.CreditCardInsertRequest;
 import com.zhmenko.user.model.response.BankAccountResponse;
 import com.zhmenko.user.model.response.BillingDetailsResponse;
 import com.zhmenko.user.model.response.CreditCardResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.SubclassMapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.JSR330,
         uses = {UserMapper.class, CreditCardMapper.class, BankAccountMapper.class})

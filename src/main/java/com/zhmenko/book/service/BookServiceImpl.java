@@ -8,7 +8,6 @@ import com.zhmenko.book.mapper.BookMapper;
 import com.zhmenko.book.model.BookInsertRequest;
 import com.zhmenko.book.model.BookModifyRequest;
 import com.zhmenko.book.model.BookResponse;
-import com.zhmenko.book.validator.BookValidator;
 import com.zhmenko.exception.BadRequestException;
 import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.util.ValidationUtils;
@@ -23,24 +22,14 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     private final BookCollectionMapper bookCollectionMapper;
-    private final BookValidator bookValidator;
 
-    /**
-     * Constructor for initializing the dependencies.
-     *
-     * @param bookDao       the database access layer for books
-     * @param bookValidator the validator for book operations
-     * @param bookMapper    the mapper for converting between domain and DTO objects
-     */
     @Inject
     public BookServiceImpl(final BookDao bookDao,
-                           final BookValidator bookValidator,
                            final BookMapper bookMapper,
                            final BookCollectionMapper bookCollectionMapper) {
         this.bookDao = bookDao;
         this.bookMapper = bookMapper;
         this.bookCollectionMapper = bookCollectionMapper;
-        this.bookValidator = bookValidator;
     }
 
     /**

@@ -12,9 +12,7 @@ import java.util.Set;
  * User entity
  */
 @Entity
-@Table(name = "users", indexes = {
-        @Index(columnList = "id", name = "idx_users")
-})
+@Table(name = "users")
 @NamedEntityGraph(name = "graph.Users",
         attributeNodes = {
                 @NamedAttributeNode("bookEntitySet"),

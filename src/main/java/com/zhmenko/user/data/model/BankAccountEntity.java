@@ -1,7 +1,9 @@
 package com.zhmenko.user.data.model;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bank_account")

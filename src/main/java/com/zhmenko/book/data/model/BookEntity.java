@@ -2,7 +2,6 @@ package com.zhmenko.book.data.model;
 
 import com.zhmenko.author.data.model.AuthorEntity;
 import com.zhmenko.user.data.model.UserEntity;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -12,9 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "books", indexes = {
-        @Index(columnList = "id", name = "idx_books")
-})
+@Table(name = "books")
 @NamedEntityGraph(name = "graph.Books",
         attributeNodes = {
                 @NamedAttributeNode("userEntities"),
