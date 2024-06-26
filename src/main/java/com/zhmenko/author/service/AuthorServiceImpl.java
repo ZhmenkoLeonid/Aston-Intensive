@@ -8,7 +8,6 @@ import com.zhmenko.author.mapper.AuthorMapper;
 import com.zhmenko.author.model.AuthorInsertRequest;
 import com.zhmenko.author.model.AuthorModifyRequest;
 import com.zhmenko.author.model.AuthorResponse;
-import com.zhmenko.author.validator.AuthorValidator;
 import com.zhmenko.exception.AuthorNotFoundException;
 import com.zhmenko.exception.BadRequestException;
 import com.zhmenko.util.ValidationUtils;
@@ -26,23 +25,14 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorCollectionMapper authorCollectionMapper;
 
-    private final AuthorValidator authorValidator;
-    /**
-     * Constructor for the {@link AuthorServiceImpl} class.
-     *
-     * @param authorDao       The {@link AuthorDao} instance used for database operations.
-     * @param authorMapper    The {@link AuthorMapper} instance used for mapping between domain and data models.
-     * @param authorValidator The {@link AuthorValidator} instance used for validating input data.
-     */
     @Inject
     public AuthorServiceImpl(final AuthorDao authorDao,
                              final AuthorMapper authorMapper,
-                             final AuthorCollectionMapper authorCollectionMapper,
-                             final AuthorValidator authorValidator) {
+                             final AuthorCollectionMapper authorCollectionMapper
+    ) {
         this.authorDao = authorDao;
         this.authorMapper = authorMapper;
         this.authorCollectionMapper = authorCollectionMapper;
-        this.authorValidator = authorValidator;
     }
 
     /**
@@ -81,7 +71,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorResponse updateAuthor(final AuthorModifyRequest authorModifyRequest, final Long id) {
         ValidationUtils.validate(authorModifyRequest);
-        if (authorModifyRequest.getId() != id) throw new BadRequestException("Path variable id must be equal to body id");
+        if (authorModifyRequest.getId() != id)
+            throw new BadRequestException("Path variable id must be equal to body id");
         final AuthorEntity author = authorDao.updateAuthor(authorMapper.authorModifyRequestToAuthorEntity(authorModifyRequest));
         return authorMapper.authorEntityToAuthorResponse(author);
     }

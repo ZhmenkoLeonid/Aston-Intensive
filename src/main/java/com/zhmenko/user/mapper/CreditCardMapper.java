@@ -3,7 +3,10 @@ package com.zhmenko.user.mapper;
 import com.zhmenko.user.data.model.CreditCardEntity;
 import com.zhmenko.user.model.request.CreditCardInsertRequest;
 import com.zhmenko.user.model.response.CreditCardResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.JSR330,
 uses = UserMapper.class)

@@ -8,6 +8,7 @@
         <class>com.zhmenko.user.data.model.UserEntity</class>
         <class>com.zhmenko.author.data.model.AuthorEntity</class>
         <class>com.zhmenko.book.data.model.BookEntity</class>
+        <class>com.zhmenko.user.data.model.BillingDetailsEntity</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>

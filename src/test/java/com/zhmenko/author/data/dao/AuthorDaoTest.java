@@ -1,10 +1,8 @@
 package com.zhmenko.author.data.dao;
 
-import com.google.inject.Provider;
 import com.zhmenko.AbstractDaoTest;
 import com.zhmenko.author.data.model.AuthorEntity;
 import com.zhmenko.exception.AuthorNotFoundException;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

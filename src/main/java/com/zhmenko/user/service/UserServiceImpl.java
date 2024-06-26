@@ -13,7 +13,6 @@ import com.zhmenko.user.mapper.UserMapper;
 import com.zhmenko.user.model.request.*;
 import com.zhmenko.user.model.response.BillingDetailsResponse;
 import com.zhmenko.user.model.response.UserResponse;
-import com.zhmenko.user.validator.UserValidator;
 import com.zhmenko.util.ValidationUtils;
 
 import java.util.List;
@@ -26,19 +25,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserCollectionMapper userCollectionMapper;
     private final BillingDetailsMapper billingDetailsMapper;
-    private final UserValidator userValidator;
 
     @Inject
     public UserServiceImpl(final UserDao userDao,
                            final UserMapper userMapper,
-                           final UserValidator userValidator,
                            final UserCollectionMapper userCollectionMapper,
                            final BillingDetailsMapper billingDetailsMapper) {
         this.userDao = userDao;
         this.userMapper = userMapper;
         this.userCollectionMapper = userCollectionMapper;
         this.billingDetailsMapper = billingDetailsMapper;
-        this.userValidator = userValidator;
     }
 
     /**
@@ -49,9 +45,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserResponse addUser(final UserInsertRequest user) {
-        if (!userValidator.validate(user)) {
-            throw new BadRequestException("Invalid user");
-        }
+        ValidationUtils.validate(user);
         final UserEntity userEntity = userDao.insertUser(userMapper.userInsertRequestToUserEntity(user));
         return userMapper.userEntityToUserResponse(userEntity);
     }
