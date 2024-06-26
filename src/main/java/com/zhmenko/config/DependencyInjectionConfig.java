@@ -1,5 +1,7 @@
 package com.zhmenko.config;
 
+import com.google.inject.persist.PersistFilter;
+import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.ServletModule;
 import com.zhmenko.author.data.dao.AuthorDao;
 import com.zhmenko.author.data.dao.AuthorDaoImpl;
@@ -23,18 +25,12 @@ import com.zhmenko.database.connection.ConnectionManager;
 import com.zhmenko.database.connection.ConnectionManagerImpl;
 import com.zhmenko.user.data.dao.UserDao;
 import com.zhmenko.user.data.dao.UserDaoImpl;
-import com.zhmenko.user.mapper.UserCollectionMapper;
-import com.zhmenko.user.mapper.UserCollectionMapperImpl;
-import com.zhmenko.user.mapper.UserMapper;
-import com.zhmenko.user.mapper.UserMapperImpl;
+import com.zhmenko.user.mapper.*;
 import com.zhmenko.user.service.UserService;
 import com.zhmenko.user.service.UserServiceImpl;
+import com.zhmenko.user.servlet.UserBillingDetailsServlet;
+import com.zhmenko.user.servlet.UserBookServlet;
 import com.zhmenko.user.servlet.UserServlet;
-import com.zhmenko.user_book.data.dao.UserBookDao;
-import com.zhmenko.user_book.data.dao.UserBookDaoImpl;
-import com.zhmenko.user_book.service.UserBookService;
-import com.zhmenko.user_book.service.UserBookServiceImpl;
-import com.zhmenko.user_book.servlet.UserBookServlet;
 
 public class DependencyInjectionConfig extends ServletModule {
 
@@ -43,29 +39,30 @@ public class DependencyInjectionConfig extends ServletModule {
      */
     @Override
     protected void configureServlets() {
+        install(new JpaPersistModule("pu"));
+
+        filter("/*").through(PersistFilter.class);
+
+        serve("/users/books/*", "/users/books").with(UserBookServlet.class);
+        serve("/users/billings/*", "/users/billings").with(UserBillingDetailsServlet.class);
         serve("/users/*", "/users").with(UserServlet.class);
         serve("/books/*", "/books").with(BookServlet.class);
         serve("/authors/*", "/authors").with(AuthorServlet.class);
-        serve("/usersbooks/*", "/usersbooks").with(UserBookServlet.class);
+
         // DAO binding
         bind(UserDao.class).to(UserDaoImpl.class);
-
-        bind(UserBookDao.class).to(UserBookDaoImpl.class);
 
         bind(BookDao.class).to(BookDaoImpl.class);
 
         bind(AuthorDao.class).to(AuthorDaoImpl.class);
 
         bind(ConnectionManager.class).to(ConnectionManagerImpl.class);
-
         //Service binding
         bind(UserService.class).to(UserServiceImpl.class);
 
         bind(BookService.class).to(BookServiceImpl.class);
 
         bind(AuthorService.class).to(AuthorServiceImpl.class);
-
-        bind(UserBookService.class).to(UserBookServiceImpl.class);
 
         // Mappers bindings
         bind(UserMapper.class).to(UserMapperImpl.class);
@@ -80,5 +77,12 @@ public class DependencyInjectionConfig extends ServletModule {
 
         bind(AuthorCollectionMapper.class).to(AuthorCollectionMapperImpl.class);
 
+        bind(BillingDetailsCollectionMapper.class).to(BillingDetailsCollectionMapperImpl.class);
+
+        bind(BillingDetailsMapper.class).to(BillingDetailsMapperImpl.class);
+
+        bind(BankAccountMapper.class).to(BankAccountMapperImpl.class);
+
+        bind(CreditCardMapper.class).to(CreditCardMapperImpl.class);
     }
 }

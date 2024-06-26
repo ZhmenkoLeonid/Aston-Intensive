@@ -41,7 +41,7 @@ class BookServiceTest extends AbstractTest {
 
     @Test
     void testAddBook() {
-        when(bookDao.insertBook(any())).thenReturn(true);
+        when(bookDao.insertBook(any())).thenReturn(any());
         BookInsertRequest bookInsertRequest = new BookInsertRequest("name", 1);
         assertDoesNotThrow(() -> service.addBook(bookInsertRequest));
     }
@@ -54,7 +54,7 @@ class BookServiceTest extends AbstractTest {
 
     @Test
     void testGetBookById() {
-        when(bookDao.selectBookById(1)).thenReturn(Optional.ofNullable(bookEntityFirst));
+        when(bookDao.selectBookById(1L)).thenReturn(Optional.ofNullable(bookEntityFirst));
         BookResponse expected = new BookResponse(1,
                 bookEntityFirst.getName(),
                 authorEntityFirst.getSecondName() + " " +
@@ -62,53 +62,53 @@ class BookServiceTest extends AbstractTest {
                 authorEntityFirst.getThirdName(),
                 List.of(userEntityFirst.getName(), userEntitySecond.getName()));
         when(mapper.bookEntityToBookResponse(bookEntityFirst)).thenReturn(expected);
-        final BookResponse actual = service.getBookById(1);
+        final BookResponse actual = service.getBookById(1L);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetBookByNotExistingBookId() {
-        when(bookDao.selectBookById(4)).thenReturn(Optional.empty());
-        assertThrows(BookNotFoundException.class, () -> service.getBookById(4));
+        when(bookDao.selectBookById(4L)).thenReturn(Optional.empty());
+        assertThrows(BookNotFoundException.class, () -> service.getBookById(4L));
     }
 
     @Test
     void testUpdateBook() {
         BookModifyRequest bookModifyRequest = new BookModifyRequest(1, "another book name", 2);
-        assertDoesNotThrow(() -> service.updateBook(bookModifyRequest, 1));
+        assertDoesNotThrow(() -> service.updateBook(bookModifyRequest, 1L));
     }
 
     @Test
     void testUpdateBookWithWrongPathVariableId() {
         BookModifyRequest bookModifyRequest = new BookModifyRequest(1, "another book name", 2);
-        assertThrows(BadRequestException.class, () -> service.updateBook(bookModifyRequest, 2));
+        assertThrows(BadRequestException.class, () -> service.updateBook(bookModifyRequest, 2L));
     }
 
     @Test
     void testUpdateBookWithNotExistingBookId() {
         BookModifyRequest bookModifyRequest = new BookModifyRequest(4, "another book name", 2);
-        doThrow(new BookNotFoundException(4)).when(bookDao).updateBook(any(), eq(4));
-        assertThrows(BookNotFoundException.class, () -> service.updateBook(bookModifyRequest, 4));
+        doThrow(new BookNotFoundException(4L)).when(bookDao).updateBook(any());
+        assertThrows(BookNotFoundException.class, () -> service.updateBook(bookModifyRequest, 4L));
     }
 
     @Test
     void testUpdateBookWithNotExistingAuthorId() {
         BookModifyRequest bookModifyRequest = new BookModifyRequest(1, "another book name", 4);
-        doThrow(new AuthorNotFoundException(4)).when(bookDao).updateBook(any(), eq(1));
-        assertThrows(AuthorNotFoundException.class, () -> service.updateBook(bookModifyRequest, 1));
+        doThrow(new AuthorNotFoundException(4L)).when(bookDao).updateBook(any());
+        assertThrows(AuthorNotFoundException.class, () -> service.updateBook(bookModifyRequest, 1L));
     }
 
     @Test
     void testDeleteBookById() {
-        when(bookDao.deleteBookById(1)).thenReturn(true);
-        assertDoesNotThrow(() -> service.deleteBookById(1));
+        when(bookDao.deleteBookById(1L)).thenReturn(any());
+        assertDoesNotThrow(() -> service.deleteBookById(1L));
     }
 
     @Test
     void testDeleteBookByWrongId() {
-        when(bookDao.deleteBookById(4)).thenThrow(new BookNotFoundException(4));
-        assertThrows(BookNotFoundException.class, () -> service.deleteBookById(4));
+        when(bookDao.deleteBookById(4L)).thenThrow(new BookNotFoundException(4L));
+        assertThrows(BookNotFoundException.class, () -> service.deleteBookById(4L));
     }
 
 

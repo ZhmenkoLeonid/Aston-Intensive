@@ -1,25 +1,44 @@
 package com.zhmenko.author.data.model;
 
 import com.zhmenko.book.data.model.BookEntity;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
+@Entity
+@Table(name = "authors", indexes = {
+        @Index(columnList = "id", name = "idx_authors")
+})
+@NamedEntityGraph(name = "graph.Authors.books",
+        attributeNodes = @NamedAttributeNode("bookEntities"))
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AuthorEntity {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Column(name = "second_name", nullable = false)
     private String secondName;
+    @Column(name = "third_name")
     private String thirdName;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "author", fetch = FetchType.LAZY)
     private Set<BookEntity> bookEntities;
 
     public AuthorEntity() {
-        this.bookEntities = new HashSet<>();
+
     }
 
-    public AuthorEntity(Integer id, String firstName, String secondName, String thirdName) {
+    public AuthorEntity(Long id, String firstName, String secondName, String thirdName) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -51,11 +70,11 @@ public class AuthorEntity {
         this.thirdName = thirdName;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,6 +85,8 @@ public class AuthorEntity {
     public void setBookEntities(Set<BookEntity> bookEntities) {
         this.bookEntities = bookEntities;
     }
+
+
 
     public String toShortString() {
         return "AuthorEntity{" +

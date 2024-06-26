@@ -4,6 +4,8 @@ import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.exception.UserNotFoundException;
 import com.zhmenko.user_book.model.UserBookRequest;
 import com.zhmenko.user_book.service.UserBookService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -56,7 +57,7 @@ class UserBookServletTest {
     @Test
     void testNotExistUserPostRequest() throws IOException {
         mockRequestReader(INPUT_JSON);
-        doThrow(new UserNotFoundException(1)).when(service).addBooksToUser(any(UserBookRequest.class));
+        doThrow(new UserNotFoundException(1L)).when(service).addBooksToUser(any(UserBookRequest.class));
 
         assertThrows(UserNotFoundException.class, () -> servlet.doPost(request, response));
     }
@@ -64,7 +65,7 @@ class UserBookServletTest {
     @Test
     void testNotExistBookPostRequest() throws IOException {
         mockRequestReader(INPUT_JSON);
-        doThrow(new BookNotFoundException(1)).when(service).addBooksToUser(any(UserBookRequest.class));
+        doThrow(new BookNotFoundException(1L)).when(service).addBooksToUser(any(UserBookRequest.class));
 
         assertThrows(BookNotFoundException.class, () -> servlet.doPost(request, response));
     }
@@ -81,7 +82,7 @@ class UserBookServletTest {
     @Test
     void testNotExistUserDeleteRequest() throws IOException {
         mockRequestReader(INPUT_JSON);
-        doThrow(new UserNotFoundException(1)).when(service).deleteBookFromUser(any(UserBookRequest.class));
+        doThrow(new UserNotFoundException(1L)).when(service).deleteBookFromUser(any(UserBookRequest.class));
 
         assertThrows(UserNotFoundException.class, () -> servlet.doDelete(request, response));
     }
@@ -89,7 +90,7 @@ class UserBookServletTest {
     @Test
     void testNotExistBookDeleteRequest() throws IOException {
         mockRequestReader(INPUT_JSON);
-        doThrow(new BookNotFoundException(1)).when(service).deleteBookFromUser(any(UserBookRequest.class));
+        doThrow(new BookNotFoundException(1L)).when(service).deleteBookFromUser(any(UserBookRequest.class));
 
         assertThrows(BookNotFoundException.class, () -> servlet.doDelete(request, response));
     }

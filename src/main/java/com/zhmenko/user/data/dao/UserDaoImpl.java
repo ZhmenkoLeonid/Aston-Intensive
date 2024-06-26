@@ -1,60 +1,41 @@
 package com.zhmenko.user.data.dao;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
 import com.zhmenko.book.data.dao.BookDao;
-import com.zhmenko.database.connection.ConnectionManager;
+import com.zhmenko.book.data.model.BookEntity;
+import com.zhmenko.exception.BadRequestException;
 import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.exception.SQLRuntimeException;
 import com.zhmenko.exception.UserNotFoundException;
-import com.zhmenko.user.data.mapper.UserResultSetMapper;
+import com.zhmenko.user.data.model.BillingDetailsEntity;
 import com.zhmenko.user.data.model.UserEntity;
-import com.zhmenko.user_book.data.dao.UserBookDao;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.jpa.SpecHints;
+import org.hibernate.query.Query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Dao for user CRUD operations
  */
 public class UserDaoImpl implements UserDao {
     Logger log = LogManager.getLogger(UserDaoImpl.class);
-    private static final String INSERT_USER = "INSERT INTO users (name, email, country) VALUES (?, ?, ?)";
 
-    private static final String SELECT_USER_BY_ID = "SELECT id, name, email, country FROM users WHERE id =?";
-
-    private static final String SELECT_USERS_BY_BOOK_ID = """
-            SELECT id, name, email, country
-            FROM users u
-            JOIN books_users bu ON (u.id = bu.user_id)
-            WHERE bu.book_id = ?
-            """;
-    private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
-    private static final String UPDATE_USER = "UPDATE users SET name = ?, email= ?, country =? WHERE id = ?";
-
-    private static final String COUNT_USER_BY_ID = """
-            SELECT count(*) count
-            FROM users u
-            WHERE u.id = ?
-            """;
-
-    private final ConnectionManager connectionManager;
-    private final UserBookDao userBookDao;
-    private final UserResultSetMapper userEntityResultSetMapper;
+    private final Provider<EntityManager> entityManagerProvider;
     private final BookDao bookDao;
 
     @Inject
-    public UserDaoImpl(final ConnectionManager connectionManager, final BookDao bookDao, final UserBookDao userBookDao) {
-        this.connectionManager = connectionManager;
-        this.userBookDao = userBookDao;
+    public UserDaoImpl(final Provider<EntityManager> entityManagerProvider,
+                       BookDao bookDao) {
         this.bookDao = bookDao;
-        this.userEntityResultSetMapper = new UserResultSetMapper(bookDao);
+        this.entityManagerProvider = entityManagerProvider;
     }
 
     /**
@@ -63,19 +44,12 @@ public class UserDaoImpl implements UserDao {
      * @param userEntity The user entity object to be added to the database.
      * @throws SQLRuntimeException if an error occurs while executing the SQL query.
      */
-    public boolean insertUser(final UserEntity userEntity) {
-        boolean result;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER)) {
-            int idx = 0;
-            preparedStatement.setString(++idx, userEntity.getName());
-            preparedStatement.setString(++idx, userEntity.getEmail());
-            preparedStatement.setString(++idx, userEntity.getCountry());
-            result = preparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
-        return result;
+    @Transactional
+    public UserEntity insertUser(final UserEntity userEntity) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        entityManager.persist(userEntity);
+        log.info("saving book using id - {}", userEntity.getId());
+        return userEntity;
     }
 
     /**
@@ -85,19 +59,27 @@ public class UserDaoImpl implements UserDao {
      * @return An optional containing the user entity if found, otherwise an empty optional.
      * @throws SQLRuntimeException if an error occurs while executing the SQL query.
      */
-    public Optional<UserEntity> selectUserById(final int id) {
-        UserEntity userEntity = null;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
-            preparedStatement.setInt(1, id);
-            log.info(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-                userEntity = userEntityResultSetMapper.map(resultSet);
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
+    @Transactional
+    public Optional<UserEntity> selectUserById(final Long id) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        EntityGraph entityGraph = entityManager.getEntityGraph("graph.Users");
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("jakarta.persistence.fetchgraph", entityGraph);
+        UserEntity userEntity = entityManager.find(UserEntity.class, id, properties);
+        log.info("finding user with id - {}", id);
         return Optional.ofNullable(userEntity);
+    }
+
+    @Override
+    @Transactional
+    public List<UserEntity> selectAll() {
+        final EntityManager entityManager = entityManagerProvider.get();
+        EntityGraph entityGraph = entityManager.getEntityGraph("graph.Users");
+        final Query<UserEntity> usersQuery = entityManager.unwrap(Session.class)
+                .createQuery("from UserEntity", UserEntity.class)
+                .setHint(SpecHints.HINT_SPEC_FETCH_GRAPH, entityGraph);
+        log.info("find all users");
+        return usersQuery.getResultList();
     }
 
     /**
@@ -108,44 +90,32 @@ public class UserDaoImpl implements UserDao {
      * @throws SQLRuntimeException   if an error occurs while executing the SQL query.
      * @throws UserNotFoundException if the user does not exist
      */
-    public boolean deleteUserById(final int id) {
-        if (!isExistById(id)) throw new UserNotFoundException(id);
-        boolean rowDeleted;
-        // Delete books links in the link table books_users
-        userBookDao.deleteUserBooksByUserId(id);
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_USER);) {
-            statement.setInt(1, id);
-            rowDeleted = statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
-        return rowDeleted;
+    @Transactional
+    public UserEntity deleteUserById(final Long id) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        final Optional<UserEntity> userEntityOptional = selectUserById(id);
+        final UserEntity userEntity = userEntityOptional.orElseThrow(() -> new UserNotFoundException(id));
+        entityManager.remove(userEntity);
+        log.info("removing user with id - {}", id);
+        return userEntity;
     }
 
     /**
      * Update a user's state specified by its id.
      *
      * @param userEntity The new user state.
-     * @param id         The id of the user to be updated.
      * @return True if the database was successfully updated, false otherwise.
      * @throws SQLRuntimeException if an error occurs while executing the SQL query.
      */
-    public boolean updateUser(final UserEntity userEntity, final int id) {
-        if (!isExistById(id)) throw new UserNotFoundException(id);
-        boolean rowUpdated;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statementUserUpdate = connection.prepareStatement(UPDATE_USER);) {
-            int idx = 0;
-            statementUserUpdate.setString(++idx, userEntity.getName());
-            statementUserUpdate.setString(++idx, userEntity.getEmail());
-            statementUserUpdate.setString(++idx, userEntity.getCountry());
-            statementUserUpdate.setInt(++idx, userEntity.getId());
-            rowUpdated = statementUserUpdate.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
-        return rowUpdated;
+    @Transactional
+    public UserEntity updateUser(final UserEntity userEntity) {
+        final UserEntity updatedUser = selectUserById(userEntity.getId())
+                .orElseThrow(() -> new UserNotFoundException(userEntity.getId()));
+        updatedUser.setName(userEntity.getName());
+        updatedUser.setEmail(userEntity.getEmail());
+        updatedUser.setCountry(userEntity.getCountry());
+        log.info("updating user with id - {}", userEntity.getId());
+        return updatedUser;
     }
 
     /**
@@ -155,44 +125,90 @@ public class UserDaoImpl implements UserDao {
      * @return True if a user with the specified id exists in the database, false otherwise.
      * @throws SQLRuntimeException if an error occurs while executing the SQL query.
      */
-    public boolean isExistById(final int id) {
-        int count;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(COUNT_USER_BY_ID);) {
-            preparedStatement.setInt(1, id);
-            log.info(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            count = resultSet.getInt("count");
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
-        return count == 1;
-    }
-
-    /**
-     * Retrieve users related to a specific book id.
-     *
-     * @param bookId The id of the book related to the users to be retrieved.
-     * @return A set of user entities related to the specified book id.
-     * @throws SQLRuntimeException   if an error occurs while executing the SQL query.
-     * @throws BookNotFoundException if book with the specified id does not exist
-     */
     @Override
-    public Set<UserEntity> selectUsersByBookId(final int bookId) {
-        if (!bookDao.isExistById(bookId)) throw new BookNotFoundException(bookId);
-        Set<UserEntity> userEntitySet = new HashSet<>();
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USERS_BY_BOOK_ID);) {
-            preparedStatement.setInt(1, bookId);
-            log.info(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
-                userEntitySet.add(userEntityResultSetMapper.getUserByBookId(resultSet));
-        } catch (SQLException e) {
-            throw new SQLRuntimeException(e.getMessage());
-        }
-        return userEntitySet;
+    public boolean isExistById(final Long id) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        final long cnt = (long) entityManager
+                .createQuery("SELECT COUNT(u) " +
+                             "FROM UserEntity u " +
+                             "WHERE u.id=:id")
+                .setParameter("id", id)
+                .getSingleResult();
+        return cnt == 1;
     }
 
+    @Override
+    @Transactional
+    public UserEntity addBook(final UserEntity user, final BookEntity book) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        long bookId = book.getId();
+        // check if book exist
+        if (!bookDao.isExistById(bookId))
+            throw new BookNotFoundException(bookId);
+        // check if user exist
+        final UserEntity managedUser = selectUserById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException(user.getId()));
+
+        final Set<BookEntity> bookEntitySet = managedUser.getBookEntitySet();
+        if (bookEntitySet == null || bookEntitySet.contains(book))
+            throw new BadRequestException(
+                    String.format("User with id %s already contain book with id %s", user.getId(), bookId));
+        bookEntitySet.add(book);
+        return managedUser;
+    }
+
+    @Override
+    @Transactional
+    public UserEntity removeBook(final UserEntity user, final BookEntity book) {
+        final EntityManager entityManager = entityManagerProvider.get();
+        long bookId = book.getId();
+        // check if book exist
+        if (!bookDao.isExistById(bookId)) throw new BookNotFoundException(bookId);
+        // check if user exist
+        final UserEntity managedUser = selectUserById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException(user.getId()));
+
+        final Set<BookEntity> bookEntitySet = managedUser.getBookEntitySet();
+        if (bookEntitySet == null || !bookEntitySet.contains(book))
+            throw new BadRequestException(
+                    String.format("User with id %s dont contain book with id %s", user.getId(), bookId));
+
+        bookEntitySet.remove(book);
+        return managedUser;
+    }
+
+    @Override
+    @Transactional
+    public BillingDetailsEntity addBillingDetails(final BillingDetailsEntity billingDetailsEntity) {
+        // check if user exist
+        final Long userId = billingDetailsEntity.getUser().getId();
+        final UserEntity managedUser = selectUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        final Set<BillingDetailsEntity> billingDetailsSet = managedUser.getBillingDetailsSet();
+        billingDetailsSet.add(billingDetailsEntity);
+        return billingDetailsEntity;
+    }
+
+    @Override
+    @Transactional
+    public BillingDetailsEntity removeBillingDetails(final Long userId, final Long billingDetailsId) {
+        // check if user exist
+        final UserEntity managedUser = selectUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        final Set<BillingDetailsEntity> billingDetailsSet = managedUser.getBillingDetailsSet();
+        Optional<BillingDetailsEntity> toRemoveOptional;
+        if (billingDetailsSet == null ||
+            (toRemoveOptional = billingDetailsSet
+                    .stream()
+                    .filter(billingDetailsEntity ->
+                            billingDetailsEntity.getId().equals(billingDetailsId))
+                    .findFirst()).isEmpty())
+            throw new BadRequestException(
+                    String.format("User with id %s dont contain billing with id %s", userId, billingDetailsId));
+        final BillingDetailsEntity toRemove = toRemoveOptional.get();
+        billingDetailsSet.remove(toRemove);
+        return toRemove;
+    }
 }

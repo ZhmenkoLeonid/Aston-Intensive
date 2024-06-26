@@ -1,16 +1,27 @@
 package com.zhmenko.user.service;
 
-import com.zhmenko.user.model.UserInsertRequest;
-import com.zhmenko.user.model.UserModifyRequest;
-import com.zhmenko.user.model.UserResponse;
+import com.zhmenko.user.model.request.*;
+import com.zhmenko.user.model.response.BillingDetailsResponse;
+import com.zhmenko.user.model.response.UserResponse;
+
+import java.util.List;
 
 public interface UserService {
-    void addUser(final UserInsertRequest user);
+    UserResponse addUser(final UserInsertRequest user);
 
-    UserResponse getUserById(final int id);
+    UserResponse getUserById(final Long id);
 
-    void updateUser(final UserModifyRequest user, final int id);
+    List<UserResponse> getAll();
 
-    void deleteUserById(final int id);
+    UserResponse updateUser(final UserModifyRequest user, final Long id);
 
+    UserResponse deleteUserById(final Long id);
+
+    UserResponse addBook(UserBookModifyRequest userBookModifyRequest);
+
+    UserResponse removeBook(UserBookModifyRequest userBookModifyRequest);
+
+    BillingDetailsResponse addBillingDetails(BillingDetailsInsertRequest billingDetailsInsertRequest);
+
+    BillingDetailsResponse removeBillingDetails(BillingDetailsModifyRequest billingDetailsRequest);
 }

@@ -6,14 +6,11 @@ package com.zhmenko.handler.model;
 public class Error {
     private Integer statusCode;
 
-    private String servletName;
-
     private String requestedURI;
     private String message;
 
-    public Error(Integer statusCode, String servletName, String requestedURI, String message) {
+    public Error(Integer statusCode, String requestedURI, String message) {
         this.statusCode = statusCode;
-        this.servletName = servletName;
         this.requestedURI = requestedURI;
         this.message = message;
     }
@@ -24,14 +21,6 @@ public class Error {
 
     public void setRequestedURI(String requestedURI) {
         this.requestedURI = requestedURI;
-    }
-
-    public String getServletName() {
-        return servletName;
-    }
-
-    public void setServletName(String servletName) {
-        this.servletName = servletName;
     }
 
     public Integer getStatusCode() {

@@ -2,10 +2,12 @@ package com.zhmenko.user.servlet;
 
 import com.zhmenko.exception.PathVariableException;
 import com.zhmenko.exception.UserNotFoundException;
-import com.zhmenko.user.model.UserInsertRequest;
-import com.zhmenko.user.model.UserModifyRequest;
-import com.zhmenko.user.model.UserResponse;
+import com.zhmenko.user.model.request.UserInsertRequest;
+import com.zhmenko.user.model.request.UserModifyRequest;
+import com.zhmenko.user.model.response.UserResponse;
 import com.zhmenko.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -62,7 +62,7 @@ public class UserServletTest {
                 "user@mail.ru",
                 "RUS",
                 List.of("book_1", "book_2"));
-        when(userService.getUserById(1)).thenReturn(userResponse);
+        when(userService.getUserById(1L)).thenReturn(userResponse);
         servlet.doGet(request, response);
 
 
@@ -76,7 +76,7 @@ public class UserServletTest {
     void testNotExistUserGetRequest() throws Exception {
         mockRequestPath(true);
 
-        given(userService.getUserById(1)).willThrow((new UserNotFoundException(1)));
+        given(userService.getUserById(1L)).willThrow((new UserNotFoundException(1L)));
 
         assertThrows(UserNotFoundException.class, () -> servlet.doGet(request, response));
     }
@@ -100,7 +100,7 @@ public class UserServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doNothing().when(userService).updateUser(any(UserModifyRequest.class), eq(1));
+        doNothing().when(userService).updateUser(any(UserModifyRequest.class), eq(1L));
         servlet.doPut(request, response);
 
         Mockito.verify(response).setStatus(HttpServletResponse.SC_OK);
@@ -118,7 +118,7 @@ public class UserServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doThrow(new UserNotFoundException(1)).when(userService).updateUser(any(UserModifyRequest.class), eq(1));
+        doThrow(new UserNotFoundException(1L)).when(userService).updateUser(any(UserModifyRequest.class), eq(1L));
 
         assertThrows(UserNotFoundException.class, () -> servlet.doPut(request, response));
     }
@@ -150,7 +150,7 @@ public class UserServletTest {
     @Test
     void testDeleteRequest() throws Exception {
         mockRequestPath(true);
-        doNothing().when(userService).deleteUserById(1);
+        doNothing().when(userService).deleteUserById(1L);
 
         servlet.doDelete(request, response);
 
@@ -160,7 +160,7 @@ public class UserServletTest {
     @Test
     void testDeleteNotExistUserRequest() throws Exception {
         mockRequestPath(true);
-        doThrow(new UserNotFoundException(1)).when(userService).deleteUserById(eq(1));
+        doThrow(new UserNotFoundException(1L)).when(userService).deleteUserById(eq(1L));
 
         assertThrows(UserNotFoundException.class, () -> servlet.doDelete(request, response));
     }

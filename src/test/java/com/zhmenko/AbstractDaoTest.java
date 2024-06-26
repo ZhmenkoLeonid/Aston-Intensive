@@ -4,6 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.zhmenko.connection.DependencyInjectionConfigTest;
 import com.zhmenko.utils.SqlUtils;
+import jakarta.persistence.EntityManager;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +17,8 @@ import java.sql.DriverManager;
 
 public class AbstractDaoTest {
     private static final String DB_SCRIPT_PATH = "aston_db_script.sql";
-    @Container
+
+    @ClassRule
     protected static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest");
 
     protected static Injector injector;
@@ -24,6 +27,9 @@ public class AbstractDaoTest {
     @BeforeAll
     public static void setUp() {
         postgresContainer.start();
+        System.setProperty("db.url", postgresContainer.getJdbcUrl().toString());
+        System.setProperty("db.username", postgresContainer.getUsername());
+        System.setProperty("db.password", postgresContainer.getPassword());
         injector = Guice.createInjector(
                 new DependencyInjectionConfigTest(postgresContainer.getJdbcUrl(),
                         postgresContainer.getUsername(),
@@ -44,5 +50,6 @@ public class AbstractDaoTest {
     @AfterEach
     public void closeConnection() throws Exception {
         connection.close();
+        injector.getInstance(EntityManager.class).clear();
     }
 }

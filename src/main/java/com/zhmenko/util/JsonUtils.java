@@ -2,6 +2,9 @@ package com.zhmenko.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zhmenko.user.model.request.BankAccountInsertRequest;
+import com.zhmenko.user.model.request.BillingDetailsInsertRequest;
+import com.zhmenko.user.model.request.CreditCardInsertRequest;
 
 import java.io.Reader;
 
@@ -9,7 +12,14 @@ import java.io.Reader;
  * 1Utility class for JSON operations.
  */
 public final class JsonUtils {
-    private static final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapterFactory(RuntimeTypeAdapterFactory
+                    .of(BillingDetailsInsertRequest.class, "billing_type").recognizeSubtypes()
+                    .registerSubtype(CreditCardInsertRequest.class, "credit_card")
+                    .registerSubtype(BankAccountInsertRequest.class, "bank_account"))
+            .serializeNulls()
+            .setPrettyPrinting()
+            .create();
 
     private JsonUtils() {
     }

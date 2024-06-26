@@ -3,18 +3,20 @@ package com.zhmenko.user.servlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.zhmenko.exception.PathVariableException;
-import com.zhmenko.user.model.UserInsertRequest;
-import com.zhmenko.user.model.UserModifyRequest;
-import com.zhmenko.user.model.UserResponse;
+import com.zhmenko.user.model.request.UserInsertRequest;
+import com.zhmenko.user.model.request.UserModifyRequest;
+import com.zhmenko.user.model.response.UserResponse;
 import com.zhmenko.user.service.UserService;
 import com.zhmenko.util.ServletUtils;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 
 /**
  * Servlet that serve requests linked to users
@@ -34,9 +36,9 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
         UserInsertRequest userInsertRequest = ServletUtils.readRequestBody(request, UserInsertRequest.class);
-        userService.addUser(userInsertRequest);
+        final UserResponse userResponse = userService.addUser(userInsertRequest);
         log.info("user added: {}", userInsertRequest);
-        response.setStatus(HttpServletResponse.SC_CREATED);
+        ServletUtils.writeJsonResponse(response, userResponse, HttpServletResponse.SC_CREATED);
     }
 
     /**
@@ -55,10 +57,13 @@ public class UserServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int userId = Integer.parseInt(pathVariable);
+            Long userId = Long.parseLong(pathVariable);
             UserResponse user = userService.getUserById(userId);
             ServletUtils.writeJsonResponse(response, user, HttpServletResponse.SC_OK);
-        } else throw new PathVariableException("Need to specify user id to get");
+        } else {
+            final List<UserResponse> usersResponse = userService.getAll();
+            ServletUtils.writeJsonResponse(response, usersResponse, HttpServletResponse.SC_OK);
+        }
     }
 
 
@@ -76,10 +81,10 @@ public class UserServlet extends HttpServlet {
     public void doPut(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int userId = Integer.parseInt(pathVariable);
+            Long userId = Long.parseLong(pathVariable);
             UserModifyRequest userModifyRequest = ServletUtils.readRequestBody(request, UserModifyRequest.class);
-            userService.updateUser(userModifyRequest, userId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            final UserResponse userResponse = userService.updateUser(userModifyRequest, userId);
+            ServletUtils.writeJsonResponse(response, userResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify user id for update");
     }
 
@@ -99,9 +104,9 @@ public class UserServlet extends HttpServlet {
     public void doDelete(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int userId = Integer.parseInt(pathVariable);
-            userService.deleteUserById(userId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            Long userId = Long.parseLong(pathVariable);
+            final UserResponse userResponse = userService.deleteUserById(userId);
+            ServletUtils.writeJsonResponse(response, userResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify user id for delete");
     }
 }

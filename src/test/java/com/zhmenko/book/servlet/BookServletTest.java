@@ -6,6 +6,8 @@ import com.zhmenko.book.model.BookResponse;
 import com.zhmenko.book.service.BookService;
 import com.zhmenko.exception.BookNotFoundException;
 import com.zhmenko.exception.PathVariableException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -63,7 +63,7 @@ class BookServletTest {
                 "book_name",
                 "author",
                 List.of("user_1", "user_2"));
-        when(service.getBookById(1)).thenReturn(bookResponse);
+        when(service.getBookById(1L)).thenReturn(bookResponse);
         servlet.doGet(request, response);
 
         Mockito.verify(response).setContentType("application/json");
@@ -76,7 +76,7 @@ class BookServletTest {
     void testNotExistBookGetRequest() throws Exception {
         mockRequestPath(true);
 
-        given(service.getBookById(1)).willThrow((new BookNotFoundException(1)));
+        given(service.getBookById(1L)).willThrow((new BookNotFoundException(1L)));
 
         assertThrows(BookNotFoundException.class, () -> servlet.doGet(request, response));
     }
@@ -99,7 +99,7 @@ class BookServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doNothing().when(service).updateBook(any(BookModifyRequest.class), eq(1));
+        doNothing().when(service).updateBook(any(BookModifyRequest.class), eq(1L));
         servlet.doPut(request, response);
 
         Mockito.verify(response).setStatus(HttpServletResponse.SC_OK);
@@ -116,7 +116,7 @@ class BookServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doThrow(new BookNotFoundException(1)).when(service).updateBook(any(BookModifyRequest.class), eq(1));
+        doThrow(new BookNotFoundException(1L)).when(service).updateBook(any(BookModifyRequest.class), eq(1L));
 
         assertThrows(BookNotFoundException.class, () -> servlet.doPut(request, response));
     }
@@ -146,7 +146,7 @@ class BookServletTest {
     @Test
     void testDeleteRequest() throws Exception {
         mockRequestPath(true);
-        doNothing().when(service).deleteBookById(1);
+        doNothing().when(service).deleteBookById(1L);
 
         servlet.doDelete(request, response);
 
@@ -156,7 +156,7 @@ class BookServletTest {
     @Test
     void testDeleteNotExistBookRequest() throws Exception {
         mockRequestPath(true);
-        doThrow(new BookNotFoundException(1)).when(service).deleteBookById(eq(1));
+        doThrow(new BookNotFoundException(1L)).when(service).deleteBookById(eq(1L));
 
         assertThrows(BookNotFoundException.class, () -> servlet.doDelete(request, response));
     }

@@ -1,6 +1,12 @@
 package com.zhmenko.connection;
 
+import com.google.inject.Inject;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.persist.PersistFilter;
+import com.google.inject.persist.PersistService;
+import com.google.inject.persist.jpa.JpaPersistModule;
+import com.google.inject.persist.jpa.JpaPersistOptions;
 import com.google.inject.servlet.ServletModule;
 import com.zhmenko.author.data.dao.AuthorDao;
 import com.zhmenko.author.data.dao.AuthorDaoImpl;
@@ -25,6 +31,14 @@ public class DependencyInjectionConfigTest extends ServletModule {
 
     @Override
     protected void configureServlets() {
+        final JpaPersistOptions jpaPersistOptions = JpaPersistOptions
+                .builder()
+                .setAutoBeginWorkOnEntityManagerCreation(true)
+                .build();
+        install(new JpaPersistModule("pu_test", jpaPersistOptions));
+
+        bind(JPAInitializer.class).asEagerSingleton();
+
         bind(UserDao.class).to(UserDaoImpl.class);
 
         bind(UserBookDao.class).to(UserBookDaoImpl.class);
@@ -37,5 +51,13 @@ public class DependencyInjectionConfigTest extends ServletModule {
     @Provides
     ConnectionManager connectionManager() {
         return new ConnectionManagerTest(jdbcUrl, username, password);
+    }
+
+    @Singleton
+    private static class JPAInitializer {
+        @Inject
+        public JPAInitializer(final PersistService service) {
+            service.start();
+        }
     }
 }

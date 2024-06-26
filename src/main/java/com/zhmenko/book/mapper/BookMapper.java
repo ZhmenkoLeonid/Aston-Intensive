@@ -27,7 +27,7 @@ public abstract class BookMapper {
         return bookEntity.getName();
     }
 
-    public BookEntity bookIdToBookEntity(final Integer bookId) {
+    public BookEntity bookIdToBookEntity(final Long bookId) {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setId(bookId);
         return bookEntity;
