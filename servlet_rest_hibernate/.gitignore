@@ -3,7 +3,7 @@
 .editorconfig
 .factorypath
 .gitattributes
-.idea/codeStyles/
+../.idea/codeStyles/
 .idea/inspectionProfiles/
 .idea/modifysf.iml
 .idea/modules.xml
@@ -12,7 +12,7 @@
 .mvn/
 .project
 .settings/
-README.md
+README.MD
 mvnw.cmd
 node/
 node_modules/
