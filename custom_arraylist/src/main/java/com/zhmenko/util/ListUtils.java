@@ -3,6 +3,9 @@ package com.zhmenko.util;
 import com.zhmenko.customlist.CustomArrayList;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * Util class containing various methods for CustomArrayList class
@@ -11,6 +14,7 @@ import java.util.Comparator;
  */
 public class ListUtils {
     private ListUtils() {
+        new TreeSet
     }
 
     /**
