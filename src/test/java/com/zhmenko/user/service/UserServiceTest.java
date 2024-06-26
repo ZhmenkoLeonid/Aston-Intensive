@@ -5,9 +5,9 @@ import com.zhmenko.exception.BadRequestException;
 import com.zhmenko.exception.UserNotFoundException;
 import com.zhmenko.user.data.dao.UserDao;
 import com.zhmenko.user.mapper.UserMapper;
-import com.zhmenko.user.model.UserInsertRequest;
-import com.zhmenko.user.model.UserModifyRequest;
-import com.zhmenko.user.model.UserResponse;
+import com.zhmenko.user.model.request.UserInsertRequest;
+import com.zhmenko.user.model.request.UserModifyRequest;
+import com.zhmenko.user.model.response.UserResponse;
 import com.zhmenko.user.validator.UserValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +42,7 @@ class UserServiceTest extends AbstractTest {
 
     @Test
     void testAddUser() {
-        when(userDao.insertUser(any())).thenReturn(true);
+        when(userDao.insertUser(any())).thenReturn(any());
         UserInsertRequest userInsertRequest = new UserInsertRequest("name", "email", "country");
         assertDoesNotThrow(() -> userService.addUser(userInsertRequest));
     }
@@ -61,64 +61,64 @@ class UserServiceTest extends AbstractTest {
 
     @Test
     void testGetUserById() {
-        when(userDao.selectUserById(3)).thenReturn(Optional.ofNullable(userEntityThird));
+        when(userDao.selectUserById(3L)).thenReturn(Optional.ofNullable(userEntityThird));
         UserResponse expected = new UserResponse(3,
                 "name3",
                 "3@mail.ru",
                 "EN",
                 List.of(bookEntityThird.getName()));
         when(mapper.userEntityToUserResponse(userEntityThird)).thenReturn(expected);
-        final UserResponse actual = userService.getUserById(3);
+        final UserResponse actual = userService.getUserById(3L);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetUserByNotExistingUserId() {
-        when(userDao.selectUserById(4)).thenReturn(Optional.empty());
-        assertThrows(UserNotFoundException.class, () -> userService.getUserById(4));
+        when(userDao.selectUserById(4L)).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> userService.getUserById(4L));
     }
 
     @Test
     void testUpdateUser() {
         UserModifyRequest userModifyRequest = new UserModifyRequest(1, "newName", "newEmail", "newCountry");
-        assertDoesNotThrow(() -> userService.updateUser(userModifyRequest, 1));
+        assertDoesNotThrow(() -> userService.updateUser(userModifyRequest, 1L));
     }
 
     @Test
     void testUpdateUserWithWrongPathVariableId() {
         UserModifyRequest userModifyRequest = new UserModifyRequest(1, "newName", "newEmail", "newCountry");
-        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 2));
+        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 2L));
     }
 
     @Test
     void testUpdateUserWithNullName() {
         UserModifyRequest userModifyRequest = new UserModifyRequest(1, null, "newEmail", "newCountry");
-        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 1));
+        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 1L));
     }
 
     @Test
     void testUpdateUserWithNullEmail() {
         UserModifyRequest userModifyRequest = new UserModifyRequest(1, "name", null, "newCountry");
-        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 1));
+        assertThrows(BadRequestException.class, () -> userService.updateUser(userModifyRequest, 1L));
     }
 
     @Test
     void testUpdateUserWithNotExistingUserId() {
         UserModifyRequest userModifyRequest = new UserModifyRequest(4, "newName", "newEmail", "newCountry");
-        doThrow(new UserNotFoundException(4)).when(userDao).updateUser(any(), eq(4));
-        assertThrows(UserNotFoundException.class, () -> userService.updateUser(userModifyRequest, 4));
+        doThrow(new UserNotFoundException(4L)).when(userDao).updateUser(any());
+        assertThrows(UserNotFoundException.class, () -> userService.updateUser(userModifyRequest, 4L));
     }
 
     @Test
     void testDeleteUserById() {
-        when(userDao.deleteUserById(3)).thenReturn(true);
-        assertDoesNotThrow(() -> userService.deleteUserById(3));
+        when(userDao.deleteUserById(3L)).thenReturn(any());
+        assertDoesNotThrow(() -> userService.deleteUserById(3L));
     }
 
     @Test
     void testDeleteUserByWrongId() {
-        when(userDao.deleteUserById(4)).thenThrow(new UserNotFoundException(4));
-        assertThrows(UserNotFoundException.class, () -> userService.deleteUserById(4));
+        when(userDao.deleteUserById(4L)).thenThrow(new UserNotFoundException(4L));
+        assertThrows(UserNotFoundException.class, () -> userService.deleteUserById(4L));
     }
 }

@@ -1,11 +1,17 @@
 package com.zhmenko.author.model;
 
 import com.google.gson.annotations.SerializedName;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class AuthorInsertRequest {
     @SerializedName("first_name")
+    @NotNull(message = "first name cannot be null")
+    @NotBlank(message = "first name cannot be blank")
     private String firstName;
     @SerializedName("second_name")
+    @NotNull(message = "second name cannot be null")
+    @NotBlank(message = "second name cannot be blank")
     private String secondName;
     @SerializedName("third_name")
     private String thirdName;

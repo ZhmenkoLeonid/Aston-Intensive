@@ -1,6 +1,7 @@
 package com.zhmenko.user.mapper;
 
 import com.zhmenko.user.data.model.UserEntity;
+import com.zhmenko.user.model.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -13,4 +14,6 @@ public abstract class UserCollectionMapper {
     public List<String> userEntityCollectionToUserNames(Collection<UserEntity> userEntitySet) {
         return userEntitySet.stream().map(UserEntity::getName).collect(Collectors.toList());
     }
+
+    public abstract List<UserResponse> userEntityCollectionToUserResponseList(Collection<UserEntity> userEntities);
 }

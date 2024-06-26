@@ -8,13 +8,15 @@ import com.zhmenko.book.model.BookResponse;
 import com.zhmenko.book.service.BookService;
 import com.zhmenko.exception.PathVariableException;
 import com.zhmenko.util.ServletUtils;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 
 /**
  * Servlet that serve requests linked to books
@@ -40,13 +42,13 @@ public class BookServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
         BookInsertRequest bookInsertRequest = ServletUtils.readRequestBody(request, BookInsertRequest.class);
-        bookService.addBook(bookInsertRequest);
-        log.info("book added: %s", bookInsertRequest);
-        response.setStatus(HttpServletResponse.SC_CREATED);
+        final BookResponse bookResponse = bookService.addBook(bookInsertRequest);
+        log.info("book added: {}", bookInsertRequest);
+        ServletUtils.writeJsonResponse(response, bookResponse, HttpServletResponse.SC_CREATED);
     }
 
     /**
-     * get book by specified id (path variable) if exist
+     * get book by specified id (path variable) if exist or return all books if id not specified
      *
      * @param request  an {@link HttpServletRequest} object that
      *                 contains the request the client has made
@@ -61,10 +63,13 @@ public class BookServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int bookId = Integer.parseInt(pathVariable);
+            Long bookId = Long.parseLong(pathVariable);
             BookResponse book = bookService.getBookById(bookId);
             ServletUtils.writeJsonResponse(response, book, HttpServletResponse.SC_OK);
-        } else throw new PathVariableException("Need to specify book id to get");
+        } else {
+            final List<BookResponse> all = bookService.getAll();
+            ServletUtils.writeJsonResponse(response, all, HttpServletResponse.SC_OK);
+        }
     }
 
 
@@ -84,10 +89,10 @@ public class BookServlet extends HttpServlet {
     public void doPut(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int bookId = Integer.parseInt(pathVariable);
+            Long bookId = Long.parseLong(pathVariable);
             BookModifyRequest bookModifyRequest = ServletUtils.readRequestBody(request, BookModifyRequest.class);
-            bookService.updateBook(bookModifyRequest, bookId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            final BookResponse bookResponse = bookService.updateBook(bookModifyRequest, bookId);
+            ServletUtils.writeJsonResponse(response, bookResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify book id for update");
     }
 
@@ -107,9 +112,9 @@ public class BookServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int bookId = Integer.parseInt(pathVariable);
-            bookService.deleteBookById(bookId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            Long bookId = Long.parseLong(pathVariable);
+            final BookResponse bookResponse = bookService.deleteBookById(bookId);
+            ServletUtils.writeJsonResponse(response, bookResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify book id for delete");
     }
 }

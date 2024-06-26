@@ -54,3 +54,7 @@ ALTER TABLE books ADD CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENC
 ALTER TABLE books_users ADD CONSTRAINT fk_users_books_users FOREIGN KEY (user_id) REFERENCES users (id);
 
 ALTER TABLE books_users ADD CONSTRAINT fk_users_books_books FOREIGN KEY (book_id) REFERENCES books (id);
+
+/*
+ ALTER TABLE employees ALTER COLUMN id SET DEFAULT nextval('my_sequence');
+ */

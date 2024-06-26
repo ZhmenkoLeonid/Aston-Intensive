@@ -22,7 +22,7 @@ public abstract class AuthorMapper {
         return authorEntity.getSecondName() + " " + authorEntity.getFirstName() + " " + authorEntity.getThirdName();
     }
 
-    public AuthorEntity authorIdToAuthorEntity(Integer authorId) {
+    public AuthorEntity authorIdToAuthorEntity(Long authorId) {
         AuthorEntity authorEntity = new AuthorEntity();
         authorEntity.setId(authorId);
         return authorEntity;

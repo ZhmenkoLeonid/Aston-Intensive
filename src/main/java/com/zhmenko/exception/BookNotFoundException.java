@@ -3,7 +3,7 @@ package com.zhmenko.exception;
 import java.text.MessageFormat;
 
 public class BookNotFoundException extends EntityNotFoundException {
-    public BookNotFoundException(int id) {
+    public BookNotFoundException(Long id) {
         super(MessageFormat.format("Book with id {0} not found!", id));
     }
 

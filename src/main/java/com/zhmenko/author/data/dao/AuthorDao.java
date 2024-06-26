@@ -2,16 +2,19 @@ package com.zhmenko.author.data.dao;
 
 import com.zhmenko.author.data.model.AuthorEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AuthorDao {
-    boolean insertAuthor(final AuthorEntity author);
+    AuthorEntity insertAuthor(final AuthorEntity author);
 
-    Optional<AuthorEntity> selectAuthorById(final int id);
+    Optional<AuthorEntity> selectAuthorById(final Long id);
 
-    boolean updateAuthor(final AuthorEntity author, final int id);
+    List<AuthorEntity> selectAll();
 
-    boolean deleteAuthorById(final int id);
+    AuthorEntity updateAuthor(final AuthorEntity author);
 
-    boolean isExistById(final int id);
+    AuthorEntity deleteAuthorById(final Long id);
+
+    boolean isExistById(final Long id);
 }

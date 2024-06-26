@@ -44,9 +44,9 @@ class UserBookDaoTest extends AbstractDaoTest {
 
     @Test
     void testInsertUserBooksByUserId() {
-        final boolean b = userBookDao.insertUserBooksByUserId(List.of(2), 1);
+        final boolean b = userBookDao.insertUserBooksByUserId(List.of(2L), 1L);
         assertTrue(b);
-        final Optional<UserEntity> userEntity = userDao.selectUserById(1);
+        final Optional<UserEntity> userEntity = userDao.selectUserById(1L);
         assertTrue(userEntity.isPresent());
         final UserEntity userEntity1 = userEntity.get();
         assertEquals(3, userEntity1.getBookEntitySet().size());
@@ -54,7 +54,7 @@ class UserBookDaoTest extends AbstractDaoTest {
 
     @Test
     void testInsertUserBooksByNotExistingUserId() {
-        assertThrows(UserNotFoundException.class, () -> userBookDao.insertUserBooksByUserId(List.of(2), 4));
+        assertThrows(UserNotFoundException.class, () -> userBookDao.insertUserBooksByUserId(List.of(2L), 4L));
     }
 
     @Test
@@ -62,14 +62,14 @@ class UserBookDaoTest extends AbstractDaoTest {
         //                                                                                 Already exist
         //                                                                                        |
         //                                                                                        v
-        assertThrows(BadRequestException.class, () -> userBookDao.insertUserBooksByUserId(List.of(1, 2), 1));
+        assertThrows(BadRequestException.class, () -> userBookDao.insertUserBooksByUserId(List.of(1L, 2L), 1L));
     }
 
     @Test
     void testDeleteUserBooksByUserId() {
-        final boolean b = userBookDao.deleteUserBooksByUserId(1);
+        final boolean b = userBookDao.deleteUserBooksByUserId(1L);
         assertTrue(b);
-        final Optional<UserEntity> userEntityOptional = userDao.selectUserById(1);
+        final Optional<UserEntity> userEntityOptional = userDao.selectUserById(1L);
         assertTrue(userEntityOptional.isPresent());
         final UserEntity userEntity = userEntityOptional.get();
         assertTrue(userEntity.getBookEntitySet().isEmpty());
@@ -77,14 +77,14 @@ class UserBookDaoTest extends AbstractDaoTest {
 
     @Test
     void testDeleteUserBooksByNotExistingUserId() {
-        assertThrows(UserNotFoundException.class, () -> userBookDao.deleteUserBooksByUserId(4));
+        assertThrows(UserNotFoundException.class, () -> userBookDao.deleteUserBooksByUserId(4L));
     }
 
     @Test
     void testDeleteSpecifiedUserBooksByUserId() {
-        final boolean b = userBookDao.deleteUserBooksByUserId(List.of(1), 1);
+        final boolean b = userBookDao.deleteUserBooksByUserId(List.of(1L), 1L);
         assertTrue(b);
-        final Optional<UserEntity> userEntityOptional = userDao.selectUserById(1);
+        final Optional<UserEntity> userEntityOptional = userDao.selectUserById(1L);
         assertTrue(userEntityOptional.isPresent());
         final UserEntity userEntity = userEntityOptional.get();
         assertEquals(1, userEntity.getBookEntitySet().size());
@@ -92,22 +92,22 @@ class UserBookDaoTest extends AbstractDaoTest {
 
     @Test
     void testDeleteSpecifiedUserBooksByNotExistingUserId() {
-        assertThrows(UserNotFoundException.class, () -> userBookDao.deleteUserBooksByUserId(List.of(1), 4));
+        assertThrows(UserNotFoundException.class, () -> userBookDao.deleteUserBooksByUserId(List.of(1L), 4L));
     }
 
     @Test
     void testDeleteSpecifiedUserBooksByUserIdWithNotOwnedByUserBookId() {
-        //                                                                               Not owned by user with id 1
-        //                                                                                           |
-        //                                                                                           v
-        assertThrows(BadRequestException.class, () -> userBookDao.deleteUserBooksByUserId(List.of(1, 2), 1));
+        //                                                                             Not owned by user with id 1
+        //                                                                                         |
+        //                                                                                         v
+        assertThrows(BadRequestException.class, () -> userBookDao.deleteUserBooksByUserId(List.of(1L, 2L), 1L));
     }
 
     @Test
     void testDeleteUserBooksByBookId() {
-        final boolean b = userBookDao.deleteUserBooksByBookId(1);
+        final boolean b = userBookDao.deleteUserBooksByBookId(1L);
         assertTrue(b);
-        final Optional<BookEntity> bookEntityOptional = bookDao.selectBookById(1);
+        final Optional<BookEntity> bookEntityOptional = bookDao.selectBookById(1L);
         assertTrue(bookEntityOptional.isPresent());
         final BookEntity bookEntity = bookEntityOptional.get();
         assertTrue(bookEntity.getUserEntities().isEmpty());
@@ -115,6 +115,6 @@ class UserBookDaoTest extends AbstractDaoTest {
 
     @Test
     void testDeleteUserBooksByNotExistingBookId() {
-        assertThrows(BookNotFoundException.class, () -> userBookDao.deleteUserBooksByBookId(4));
+        assertThrows(BookNotFoundException.class, () -> userBookDao.deleteUserBooksByBookId(4L));
     }
 }

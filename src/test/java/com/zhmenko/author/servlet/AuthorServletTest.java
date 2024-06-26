@@ -6,6 +6,8 @@ import com.zhmenko.author.model.AuthorResponse;
 import com.zhmenko.author.service.AuthorService;
 import com.zhmenko.exception.AuthorNotFoundException;
 import com.zhmenko.exception.PathVariableException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -65,7 +65,7 @@ class AuthorServletTest {
                 "im second",
                 "im third",
                 List.of("book_1", "book_2"));
-        when(service.getAuthorById(1)).thenReturn(authorResponse);
+        when(service.getAuthorById(1L)).thenReturn(authorResponse);
         servlet.doGet(request, response);
 
         Mockito.verify(response).setContentType("application/json");
@@ -78,7 +78,7 @@ class AuthorServletTest {
     void testNotExistAuthorGetRequest() throws Exception {
         mockRequestPath(true);
 
-        given(service.getAuthorById(1)).willThrow((new AuthorNotFoundException(1)));
+        given(service.getAuthorById(1L)).willThrow((new AuthorNotFoundException(1L)));
 
         assertThrows(AuthorNotFoundException.class, () -> servlet.doGet(request, response));
     }
@@ -102,7 +102,7 @@ class AuthorServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doNothing().when(service).updateAuthor(any(AuthorModifyRequest.class), eq(1));
+        doNothing().when(service).updateAuthor(any(AuthorModifyRequest.class), eq(1L));
         servlet.doPut(request, response);
 
         Mockito.verify(response).setStatus(HttpServletResponse.SC_OK);
@@ -120,7 +120,7 @@ class AuthorServletTest {
                 }
                 """;
         mockRequestReader(inputJson);
-        doThrow(new AuthorNotFoundException(1)).when(service).updateAuthor(any(AuthorModifyRequest.class), eq(1));
+        doThrow(new AuthorNotFoundException(1L)).when(service).updateAuthor(any(AuthorModifyRequest.class), eq(1L));
 
         assertThrows(AuthorNotFoundException.class, () -> servlet.doPut(request, response));
     }
@@ -151,7 +151,7 @@ class AuthorServletTest {
     @Test
     void testDeleteRequest() throws Exception {
         mockRequestPath(true);
-        doNothing().when(service).deleteAuthorById(1);
+        doNothing().when(service).deleteAuthorById(1L);
 
         servlet.doDelete(request, response);
 
@@ -161,7 +161,7 @@ class AuthorServletTest {
     @Test
     void testDeleteNotExistAuthorRequest() throws Exception {
         mockRequestPath(true);
-        doThrow(new AuthorNotFoundException(1)).when(service).deleteAuthorById(1);
+        doThrow(new AuthorNotFoundException(1L)).when(service).deleteAuthorById(1L);
 
         assertThrows(AuthorNotFoundException.class, () -> servlet.doDelete(request, response));
     }

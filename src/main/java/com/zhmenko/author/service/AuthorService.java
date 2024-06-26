@@ -4,12 +4,16 @@ import com.zhmenko.author.model.AuthorInsertRequest;
 import com.zhmenko.author.model.AuthorModifyRequest;
 import com.zhmenko.author.model.AuthorResponse;
 
+import java.util.List;
+
 public interface AuthorService {
-    void addAuthor(final AuthorInsertRequest authorInsertRequest);
+    AuthorResponse addAuthor(final AuthorInsertRequest authorInsertRequest);
 
-    AuthorResponse getAuthorById(final int id);
+    AuthorResponse getAuthorById(final Long id);
 
-    void updateAuthor(final AuthorModifyRequest authorModifyRequest, final int id);
+    AuthorResponse updateAuthor(final AuthorModifyRequest authorModifyRequest, final Long id);
 
-    void deleteAuthorById(final int id);
+    AuthorResponse deleteAuthorById(final Long id);
+
+    List<AuthorResponse> getAll();
 }

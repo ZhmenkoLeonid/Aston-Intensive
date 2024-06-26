@@ -19,14 +19,14 @@ public class AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        authorEntityFirst = new AuthorEntity(1, "af1", "as1", "at1");
-        authorEntitySecond = new AuthorEntity(2, "af2", "as2", "at2");
-        bookEntityFirst = new BookEntity(1, "book 1", authorEntityFirst);
-        bookEntitySecond = new BookEntity(2, "book 2", authorEntitySecond);
-        bookEntityThird = new BookEntity(3, "book 3", authorEntityFirst);
-        userEntityFirst = new UserEntity(1, "name1", "1@mail.ru", "RUS");
-        userEntitySecond = new UserEntity(2, "name2", "2@mail.ru", "US");
-        userEntityThird = new UserEntity(3, "name3", "3@mail.ru", "EN");
+        authorEntityFirst = new AuthorEntity(1L, "af1", "as1", "at1");
+        authorEntitySecond = new AuthorEntity(2L, "af2", "as2", "at2");
+        bookEntityFirst = new BookEntity(1L, "book 1", authorEntityFirst);
+        bookEntitySecond = new BookEntity(2L, "book 2", authorEntitySecond);
+        bookEntityThird = new BookEntity(3L, "book 3", authorEntityFirst);
+        userEntityFirst = new UserEntity(1L, "name1", "1@mail.ru", "RUS");
+        userEntitySecond = new UserEntity(2L, "name2", "2@mail.ru", "US");
+        userEntityThird = new UserEntity(3L, "name3", "3@mail.ru", "EN");
 
         authorEntityFirst.setBookEntities(Set.of(bookEntityFirst, bookEntityThird));
         authorEntitySecond.setBookEntities(Set.of(bookEntitySecond));

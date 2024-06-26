@@ -2,26 +2,19 @@ package com.zhmenko.book.data.dao;
 
 import com.zhmenko.book.data.model.BookEntity;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface BookDao {
-    boolean insertBook(final BookEntity book);
+    BookEntity insertBook(final BookEntity book);
 
-    Optional<BookEntity> selectBookById(final int id);
+    Optional<BookEntity> selectBookById(final Long id);
 
-    boolean updateBook(final BookEntity user, final int id);
+    List<BookEntity> selectAll();
 
-    boolean deleteBookById(final int id);
+    BookEntity updateBook(final BookEntity user);
 
-    boolean deleteBooksByAuthorId(int authorId);
+    BookEntity deleteBookById(final Long id);
 
-    Set<BookEntity> selectBooksByAuthorId(final int authorId);
-
-    Set<BookEntity> selectBooksByUserId(final int userId);
-
-    boolean isExistById(final int bookId);
-
-    boolean isBooksExistById(final Collection<Integer> booksId);
+    boolean isExistById(final Long bookId);
 }

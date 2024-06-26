@@ -8,14 +8,15 @@ import com.zhmenko.author.model.AuthorResponse;
 import com.zhmenko.author.service.AuthorService;
 import com.zhmenko.exception.PathVariableException;
 import com.zhmenko.util.ServletUtils;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
 @WebServlet(value = "/authors", name = "AuthorServlet")
@@ -38,9 +39,9 @@ public class AuthorServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         AuthorInsertRequest authorInsertRequest = ServletUtils.readRequestBody(request, AuthorInsertRequest.class);
-        authorService.addAuthor(authorInsertRequest);
-        log.info("author added: %s", authorInsertRequest);
-        response.setStatus(HttpServletResponse.SC_CREATED);
+        final AuthorResponse authorResponse = authorService.addAuthor(authorInsertRequest);
+        log.info("author added: {}", authorInsertRequest);
+        ServletUtils.writeJsonResponse(response, authorResponse, HttpServletResponse.SC_CREATED);
     }
 
     /**
@@ -59,10 +60,13 @@ public class AuthorServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int authorId = Integer.parseInt(pathVariable);
+            Long authorId = Long.parseLong(pathVariable);
             AuthorResponse author = authorService.getAuthorById(authorId);
             ServletUtils.writeJsonResponse(response, author, HttpServletResponse.SC_OK);
-        } else throw new PathVariableException("Need to specify author id to get");
+        } else {
+            final List<AuthorResponse> all = authorService.getAll();
+            ServletUtils.writeJsonResponse(response, all, HttpServletResponse.SC_OK);
+        }
     }
 
 
@@ -82,10 +86,10 @@ public class AuthorServlet extends HttpServlet {
     public void doPut(final HttpServletRequest request, final HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int authorId = Integer.parseInt(pathVariable);
+            Long authorId = Long.parseLong(pathVariable);
             AuthorModifyRequest authorModifyRequest = ServletUtils.readRequestBody(request, AuthorModifyRequest.class);
-            authorService.updateAuthor(authorModifyRequest, authorId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            final AuthorResponse authorResponse = authorService.updateAuthor(authorModifyRequest, authorId);
+            ServletUtils.writeJsonResponse(response, authorResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify author id for update");
     }
 
@@ -105,9 +109,9 @@ public class AuthorServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) {
         String pathVariable = ServletUtils.getPathVariable(request);
         if (!pathVariable.isEmpty()) {
-            int authorId = Integer.parseInt(pathVariable);
-            authorService.deleteAuthorById(authorId);
-            response.setStatus(HttpServletResponse.SC_OK);
+            Long authorId = Long.parseLong(pathVariable);
+            final AuthorResponse authorResponse = authorService.deleteAuthorById(authorId);
+            ServletUtils.writeJsonResponse(response, authorResponse, HttpServletResponse.SC_OK);
         } else throw new PathVariableException("Need to specify author id for delete");
     }
 }

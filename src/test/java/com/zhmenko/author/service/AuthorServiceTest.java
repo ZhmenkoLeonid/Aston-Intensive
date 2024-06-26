@@ -2,6 +2,7 @@ package com.zhmenko.author.service;
 
 import com.zhmenko.AbstractTest;
 import com.zhmenko.author.data.dao.AuthorDao;
+import com.zhmenko.author.data.model.AuthorEntity;
 import com.zhmenko.author.mapper.AuthorMapper;
 import com.zhmenko.author.model.AuthorInsertRequest;
 import com.zhmenko.author.model.AuthorModifyRequest;
@@ -40,7 +41,8 @@ class AuthorServiceTest extends AbstractTest {
 
     @Test
     void testAddAuthor() {
-        when(authorDao.insertAuthor(any())).thenReturn(true);
+        when(authorDao.insertAuthor(any())).thenReturn(
+                new AuthorEntity(3L, "firstname", "secondname", "thirdname"));
         AuthorInsertRequest authorInsertRequest =
                 new AuthorInsertRequest("firstname", "secondname", "thirdname");
         assertDoesNotThrow(() -> service.addAuthor(authorInsertRequest));
@@ -55,22 +57,22 @@ class AuthorServiceTest extends AbstractTest {
 
     @Test
     void testGetAuthorById() {
-        when(authorDao.selectAuthorById(1)).thenReturn(Optional.ofNullable(authorEntityFirst));
+        when(authorDao.selectAuthorById(1L)).thenReturn(Optional.ofNullable(authorEntityFirst));
         AuthorResponse expected = new AuthorResponse(1,
                 authorEntityFirst.getFirstName(),
                 authorEntityFirst.getSecondName(),
                 authorEntityFirst.getThirdName(),
                 authorEntityFirst.getBookEntities().stream().map(BookEntity::getName).toList());
         when(mapper.authorEntityToAuthorResponse(authorEntityFirst)).thenReturn(expected);
-        final AuthorResponse actual = service.getAuthorById(1);
+        final AuthorResponse actual = service.getAuthorById(1L);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetAuthorByNotExistingAuthorId() {
-        when(authorDao.selectAuthorById(4)).thenReturn(Optional.empty());
-        assertThrows(AuthorNotFoundException.class, () -> service.getAuthorById(4));
+        when(authorDao.selectAuthorById(4L)).thenReturn(Optional.empty());
+        assertThrows(AuthorNotFoundException.class, () -> service.getAuthorById(4L));
     }
 
     @Test
@@ -80,7 +82,7 @@ class AuthorServiceTest extends AbstractTest {
                 "firstnameChanged",
                 "secondnameChanged",
                 "thirdnameChanged");
-        assertDoesNotThrow(() -> service.updateAuthor(authorModifyRequest, 1));
+        assertDoesNotThrow(() -> service.updateAuthor(authorModifyRequest, 1L));
     }
 
     @Test
@@ -90,7 +92,7 @@ class AuthorServiceTest extends AbstractTest {
                 "firstnameChanged",
                 "secondnameChanged",
                 "thirdnameChanged");
-        assertThrows(BadRequestException.class, () -> service.updateAuthor(authorModifyRequest, 2));
+        assertThrows(BadRequestException.class, () -> service.updateAuthor(authorModifyRequest, 2L));
     }
 
     @Test
@@ -100,19 +102,19 @@ class AuthorServiceTest extends AbstractTest {
                 "firstnameChanged",
                 "secondnameChanged",
                 "thirdnameChanged");
-        doThrow(new AuthorNotFoundException(4)).when(authorDao).updateAuthor(any(), eq(5));
-        assertThrows(AuthorNotFoundException.class, () -> service.updateAuthor(authorModifyRequest, 5));
+        doThrow(new AuthorNotFoundException(5L)).when(authorDao).updateAuthor(any());
+        assertThrows(AuthorNotFoundException.class, () -> service.updateAuthor(authorModifyRequest, 5L));
     }
 
     @Test
     void testDeleteAuthorById() {
-        when(authorDao.deleteAuthorById(1)).thenReturn(true);
-        assertDoesNotThrow(() -> service.deleteAuthorById(1));
+        when(authorDao.deleteAuthorById(1L)).thenReturn(authorEntityFirst);
+        assertDoesNotThrow(() -> service.deleteAuthorById(1L));
     }
 
     @Test
     void testDeleteAuthorByWrongId() {
-        when(authorDao.deleteAuthorById(4)).thenThrow(new AuthorNotFoundException(4));
-        assertThrows(AuthorNotFoundException.class, () -> service.deleteAuthorById(4));
+        when(authorDao.deleteAuthorById(4L)).thenThrow(new AuthorNotFoundException(4L));
+        assertThrows(AuthorNotFoundException.class, () -> service.deleteAuthorById(4L));
     }
 }

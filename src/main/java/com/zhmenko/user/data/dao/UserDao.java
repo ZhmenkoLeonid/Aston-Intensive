@@ -1,22 +1,31 @@
 package com.zhmenko.user.data.dao;
 
+import com.zhmenko.book.data.model.BookEntity;
+import com.zhmenko.user.data.model.BillingDetailsEntity;
 import com.zhmenko.user.data.model.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserDao {
 
-    boolean insertUser(final UserEntity user);
+    UserEntity insertUser(final UserEntity user);
 
-    Optional<UserEntity> selectUserById(final int id);
+    Optional<UserEntity> selectUserById(final Long id);
 
-    boolean updateUser(final UserEntity user, final int id);
+    List<UserEntity> selectAll();
 
-    boolean deleteUserById(final int id);
+    UserEntity updateUser(final UserEntity user);
 
-    Set<UserEntity> selectUsersByBookId(final int bookId);
+    UserEntity deleteUserById(final Long id);
 
-    boolean isExistById(final int id);
+    boolean isExistById(final Long id);
 
+    UserEntity addBook(final UserEntity user, final BookEntity book);
+
+    UserEntity removeBook(final UserEntity user, final BookEntity book);
+
+    BillingDetailsEntity addBillingDetails(final BillingDetailsEntity billingDetailsEntity);
+
+    BillingDetailsEntity removeBillingDetails(final Long userId, final Long billingDetailsId);
 }

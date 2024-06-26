@@ -4,12 +4,16 @@ import com.zhmenko.book.model.BookInsertRequest;
 import com.zhmenko.book.model.BookModifyRequest;
 import com.zhmenko.book.model.BookResponse;
 
+import java.util.List;
+
 public interface BookService {
-    void addBook(final BookInsertRequest bookInsertRequest);
+    BookResponse addBook(final BookInsertRequest bookInsertRequest);
 
-    BookResponse getBookById(final int id);
+    BookResponse getBookById(final Long id);
 
-    void updateBook(final BookModifyRequest bookModifyRequest, final int id);
+    BookResponse updateBook(final BookModifyRequest bookModifyRequest, final Long id);
 
-    void deleteBookById(final int id);
+    BookResponse deleteBookById(final Long id);
+
+    List<BookResponse> getAll();
 }
