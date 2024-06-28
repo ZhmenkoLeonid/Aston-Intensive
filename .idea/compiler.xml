@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="servlet_rest" />
         <module name="custom_arraylist" />
+        <module name="servlet_rest" />
         <module name="servlet_rest_hibernate" />
       </profile>
     </annotationProcessing>
