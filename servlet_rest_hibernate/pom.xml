@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>servlet_rest</artifactId>
+    <artifactId>servlet_rest_hibernate</artifactId>
     <packaging>war</packaging>
     <name>servlet_rest app</name>
     <groupId>com.zhmenko</groupId>
@@ -27,12 +27,8 @@
         <testcontainers.version>1.18.3</testcontainers.version>
         <flyway.version>10.14.0</flyway.version>
 
-        <hibernate.version>6.2.26.Final<!--6.5.2.Final--></hibernate.version>
+        <hibernate.version>6.2.26.Final</hibernate.version>
         <infinispan.version>14.0.29.Final</infinispan.version>
-
-        <jaxb.core.version>2.3.0.1</jaxb.core.version>
-        <jaxb.api.version>2.3.1</jaxb.api.version>
-        <ehcache.version>3.9.9</ehcache.version>
     </properties>
 
     <dependencies>
@@ -94,11 +90,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-hibernate-6</artifactId>
-            <version>3.31.0</version>
-        </dependency>-->
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-hibernate-cache-v60</artifactId>

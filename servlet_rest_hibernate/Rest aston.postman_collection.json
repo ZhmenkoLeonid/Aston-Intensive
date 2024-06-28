@@ -1,0 +1,429 @@
+{
+	"info": {
+		"_postman_id": "0029d163-8e67-4247-845a-8a4b23c354ee",
+		"name": "Rest aston",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36025947"
+	},
+	"item": [
+		{
+			"name": "books",
+			"item": [
+				{
+					"name": "book get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/servlet_rest_war/books/4"
+					},
+					"response": []
+				},
+				{
+					"name": "book post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"book name\",\r\n    \"author_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/"
+					},
+					"response": []
+				},
+				{
+					"name": "book put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"book name 2\",\r\n    \"author_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/2"
+					},
+					"response": []
+				},
+				{
+					"name": "book delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"book name 2\",\r\n    \"author_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/books/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "user get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"user-agent": true,
+							"content-type": true,
+							"connection": true,
+							"accept-encoding": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "GitHub-Hookshot/bd63eb1",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Delivery",
+								"value": "66695110-2757-11ef-9b0d-a09ad5f05f70",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Event",
+								"value": "push",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Hook-ID",
+								"value": "483437894",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Hook-Installation-Target-ID",
+								"value": "808715727",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Hook-Installation-Target-Type",
+								"value": "repository",
+								"type": "text"
+							},
+							{
+								"key": "X-Hub-Signature",
+								"value": "sha1=3af24bdbd058969e0b92949f6a28a9d7c558fc1c",
+								"type": "text"
+							},
+							{
+								"key": "X-Hub-Signature-256",
+								"value": "sha256=f752fd1179fd27549b4021a9671289a85d5bf04aa2a61be9156b2fb778017056",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"66695110-2757-11ef-9b0d-a09ad5f05f70\":\r\n{\r\n\"payload\": {\r\n  \"ref\": \"refs/heads/master\",\r\n  \"before\": \"9d72fe5a7ac98ba3427b05710d2b0e3a2ff25eb2\",\r\n  \"after\": \"c3599d4dd228635fb4ac0de18f4ce2b406bc1bed\",\r\n  \"repository\": {\r\n    \"id\": 808715727,\r\n    \"node_id\": \"R_kgDOMDQFzw\",\r\n    \"name\": \"Aston-Intensive\",\r\n    \"full_name\": \"ZhmenkoLeonid/Aston-Intensive\",\r\n    \"private\": false,\r\n    \"owner\": {\r\n      \"name\": \"ZhmenkoLeonid\",\r\n      \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\",\r\n      \"login\": \"ZhmenkoLeonid\",\r\n      \"id\": 44261808,\r\n      \"node_id\": \"MDQ6VXNlcjQ0MjYxODA4\",\r\n      \"avatar_url\": \"https://avatars.githubusercontent.com/u/44261808?v=4\",\r\n      \"gravatar_id\": \"\",\r\n      \"url\": \"https://api.github.com/users/ZhmenkoLeonid\",\r\n      \"html_url\": \"https://github.com/ZhmenkoLeonid\",\r\n      \"followers_url\": \"https://api.github.com/users/ZhmenkoLeonid/followers\",\r\n      \"following_url\": \"https://api.github.com/users/ZhmenkoLeonid/following{/other_user}\",\r\n      \"gists_url\": \"https://api.github.com/users/ZhmenkoLeonid/gists{/gist_id}\",\r\n      \"starred_url\": \"https://api.github.com/users/ZhmenkoLeonid/starred{/owner}{/repo}\",\r\n      \"subscriptions_url\": \"https://api.github.com/users/ZhmenkoLeonid/subscriptions\",\r\n      \"organizations_url\": \"https://api.github.com/users/ZhmenkoLeonid/orgs\",\r\n      \"repos_url\": \"https://api.github.com/users/ZhmenkoLeonid/repos\",\r\n      \"events_url\": \"https://api.github.com/users/ZhmenkoLeonid/events{/privacy}\",\r\n      \"received_events_url\": \"https://api.github.com/users/ZhmenkoLeonid/received_events\",\r\n      \"type\": \"User\",\r\n      \"site_admin\": false\r\n    },\r\n    \"html_url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive\",\r\n    \"description\": null,\r\n    \"fork\": false,\r\n    \"url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive\",\r\n    \"forks_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/forks\",\r\n    \"keys_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/keys{/key_id}\",\r\n    \"collaborators_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/collaborators{/collaborator}\",\r\n    \"teams_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/teams\",\r\n    \"hooks_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/hooks\",\r\n    \"issue_events_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/issues/events{/number}\",\r\n    \"events_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/events\",\r\n    \"assignees_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/assignees{/user}\",\r\n    \"branches_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/branches{/branch}\",\r\n    \"tags_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/tags\",\r\n    \"blobs_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/git/blobs{/sha}\",\r\n    \"git_tags_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/git/tags{/sha}\",\r\n    \"git_refs_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/git/refs{/sha}\",\r\n    \"trees_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/git/trees{/sha}\",\r\n    \"statuses_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/statuses/{sha}\",\r\n    \"languages_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/languages\",\r\n    \"stargazers_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/stargazers\",\r\n    \"contributors_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/contributors\",\r\n    \"subscribers_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/subscribers\",\r\n    \"subscription_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/subscription\",\r\n    \"commits_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/commits{/sha}\",\r\n    \"git_commits_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/git/commits{/sha}\",\r\n    \"comments_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/comments{/number}\",\r\n    \"issue_comment_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/issues/comments{/number}\",\r\n    \"contents_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/contents/{+path}\",\r\n    \"compare_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/compare/{base}...{head}\",\r\n    \"merges_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/merges\",\r\n    \"archive_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/{archive_format}{/ref}\",\r\n    \"downloads_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/downloads\",\r\n    \"issues_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/issues{/number}\",\r\n    \"pulls_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/pulls{/number}\",\r\n    \"milestones_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/milestones{/number}\",\r\n    \"notifications_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/notifications{?since,all,participating}\",\r\n    \"labels_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/labels{/name}\",\r\n    \"releases_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/releases{/id}\",\r\n    \"deployments_url\": \"https://api.github.com/repos/ZhmenkoLeonid/Aston-Intensive/deployments\",\r\n    \"created_at\": 1717174571,\r\n    \"updated_at\": \"2024-06-10T18:23:42Z\",\r\n    \"pushed_at\": 1718044179,\r\n    \"git_url\": \"git://github.com/ZhmenkoLeonid/Aston-Intensive.git\",\r\n    \"ssh_url\": \"git@github.com:ZhmenkoLeonid/Aston-Intensive.git\",\r\n    \"clone_url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive.git\",\r\n    \"svn_url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive\",\r\n    \"homepage\": null,\r\n    \"size\": 107,\r\n    \"stargazers_count\": 0,\r\n    \"watchers_count\": 0,\r\n    \"language\": \"Java\",\r\n    \"has_issues\": true,\r\n    \"has_projects\": true,\r\n    \"has_downloads\": true,\r\n    \"has_wiki\": true,\r\n    \"has_pages\": false,\r\n    \"has_discussions\": false,\r\n    \"forks_count\": 0,\r\n    \"mirror_url\": null,\r\n    \"archived\": false,\r\n    \"disabled\": false,\r\n    \"open_issues_count\": 0,\r\n    \"license\": null,\r\n    \"allow_forking\": true,\r\n    \"is_template\": false,\r\n    \"web_commit_signoff_required\": false,\r\n    \"topics\": [\r\n\r\n    ],\r\n    \"visibility\": \"public\",\r\n    \"forks\": 0,\r\n    \"open_issues\": 0,\r\n    \"watchers\": 0,\r\n    \"default_branch\": \"master\",\r\n    \"stargazers\": 0,\r\n    \"master_branch\": \"master\"\r\n  },\r\n  \"pusher\": {\r\n    \"name\": \"ZhmenkoLeonid\",\r\n    \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\"\r\n  },\r\n  \"sender\": {\r\n    \"login\": \"ZhmenkoLeonid\",\r\n    \"id\": 44261808,\r\n    \"node_id\": \"MDQ6VXNlcjQ0MjYxODA4\",\r\n    \"avatar_url\": \"https://avatars.githubusercontent.com/u/44261808?v=4\",\r\n    \"gravatar_id\": \"\",\r\n    \"url\": \"https://api.github.com/users/ZhmenkoLeonid\",\r\n    \"html_url\": \"https://github.com/ZhmenkoLeonid\",\r\n    \"followers_url\": \"https://api.github.com/users/ZhmenkoLeonid/followers\",\r\n    \"following_url\": \"https://api.github.com/users/ZhmenkoLeonid/following{/other_user}\",\r\n    \"gists_url\": \"https://api.github.com/users/ZhmenkoLeonid/gists{/gist_id}\",\r\n    \"starred_url\": \"https://api.github.com/users/ZhmenkoLeonid/starred{/owner}{/repo}\",\r\n    \"subscriptions_url\": \"https://api.github.com/users/ZhmenkoLeonid/subscriptions\",\r\n    \"organizations_url\": \"https://api.github.com/users/ZhmenkoLeonid/orgs\",\r\n    \"repos_url\": \"https://api.github.com/users/ZhmenkoLeonid/repos\",\r\n    \"events_url\": \"https://api.github.com/users/ZhmenkoLeonid/events{/privacy}\",\r\n    \"received_events_url\": \"https://api.github.com/users/ZhmenkoLeonid/received_events\",\r\n    \"type\": \"User\",\r\n    \"site_admin\": false\r\n  },\r\n  \"created\": false,\r\n  \"deleted\": false,\r\n  \"forced\": false,\r\n  \"base_ref\": null,\r\n  \"compare\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive/compare/9d72fe5a7ac9...c3599d4dd228\",\r\n  \"commits\": [\r\n    {\r\n      \"id\": \"c3599d4dd228635fb4ac0de18f4ce2b406bc1bed\",\r\n      \"tree_id\": \"adb71e1ad114b50717cadce0265a44c8aa8a7e78\",\r\n      \"distinct\": true,\r\n      \"message\": \"test\",\r\n      \"timestamp\": \"2024-06-10T23:29:31+05:00\",\r\n      \"url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive/commit/c3599d4dd228635fb4ac0de18f4ce2b406bc1bed\",\r\n      \"author\": {\r\n        \"name\": \"Leonid Zhmenko\",\r\n        \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\",\r\n        \"username\": \"ZhmenkoLeonid\"\r\n      },\r\n      \"committer\": {\r\n        \"name\": \"Leonid Zhmenko\",\r\n        \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\",\r\n        \"username\": \"ZhmenkoLeonid\"\r\n      },\r\n      \"added\": [\r\n\r\n      ],\r\n      \"removed\": [\r\n\r\n      ],\r\n      \"modified\": [\r\n        \"servlet_rest/README.md\"\r\n      ]\r\n    }\r\n  ],\r\n  \"head_commit\": {\r\n    \"id\": \"c3599d4dd228635fb4ac0de18f4ce2b406bc1bed\",\r\n    \"tree_id\": \"adb71e1ad114b50717cadce0265a44c8aa8a7e78\",\r\n    \"distinct\": true,\r\n    \"message\": \"test\",\r\n    \"timestamp\": \"2024-06-10T23:29:31+05:00\",\r\n    \"url\": \"https://github.com/ZhmenkoLeonid/Aston-Intensive/commit/c3599d4dd228635fb4ac0de18f4ce2b406bc1bed\",\r\n    \"author\": {\r\n      \"name\": \"Leonid Zhmenko\",\r\n      \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\",\r\n      \"username\": \"ZhmenkoLeonid\"\r\n    },\r\n    \"committer\": {\r\n      \"name\": \"Leonid Zhmenko\",\r\n      \"email\": \"44261808+ZhmenkoLeonid@users.noreply.github.com\",\r\n      \"username\": \"ZhmenkoLeonid\"\r\n    },\r\n    \"added\": [\r\n\r\n    ],\r\n    \"removed\": [\r\n\r\n    ],\r\n    \"modified\": [\r\n      \"servlet_rest/README.md\"\r\n    ]\r\n  }}\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://192.168.1.54:8080/users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "user put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"name\": \"22\",\r\n    \"email\": \"1\",\r\n    \"country\": \"lol\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/5"
+					},
+					"response": []
+				},
+				{
+					"name": "user post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"user\",\r\n    \"email\": \"o@maoi.ru\",\r\n    \"country\": \"RUS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "user delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"22\",\r\n    \"email\": \"1\",\r\n    \"country\": \"lol\",\r\n    \"booksId\": [4, 2]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/5"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authors",
+			"item": [
+				{
+					"name": "author get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				},
+				{
+					"name": "author post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"hello\",\r\n    \"second_name\": \"my\",\r\n    \"third_name\": \"world\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/"
+					},
+					"response": []
+				},
+				{
+					"name": "author put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"first_name\": \"new first_name\",\r\n    \"second_name\": \"new second_name\",\r\n    \"third_name\": \"new third_name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				},
+				{
+					"name": "author delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/authors/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usersbooks",
+			"item": [
+				{
+					"name": "usersbooks post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"books_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/books/"
+					},
+					"response": []
+				},
+				{
+					"name": "usersbooks delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"books_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/books/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users billings",
+			"item": [
+				{
+					"name": "users billings credit card post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"billing_type\": \"credit_card\",\r\n    \"card_number\": \"1231251266\",\r\n    \"exp_month\": \"01\",\r\n    \"exp_year\": \"2025\",\r\n    \"user_id\": 2,\r\n    \"owner\": \"Me\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/billings/"
+					},
+					"response": []
+				},
+				{
+					"name": "users billings bank account post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"billing_type\": \"credit_card\",\r\n    \"card_number\": \"1231251266\",\r\n    \"exp_month\": \"01\",\r\n    \"exp_year\": \"2025\",\r\n    \"user_id\": 2,\r\n    \"owner\": \"Me\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/billings/"
+					},
+					"response": []
+				},
+				{
+					"name": "usersbooks delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 2,\r\n    \"billing_details_id\": 302\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/servlet_rest_war/users/billings/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -49,6 +49,7 @@ CREATE TABLE books_users
     CONSTRAINT pk_books_rating_user_id PRIMARY KEY (user_id, book_id)
 );
 
+
 ALTER TABLE books ADD CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENCES authors (id);
 
 ALTER TABLE books_users ADD CONSTRAINT fk_users_books_users FOREIGN KEY (user_id) REFERENCES users (id);

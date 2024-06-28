@@ -6,9 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="custom_arraylist" />
         <module name="servlet_rest" />
+        <module name="custom_arraylist" />
+        <module name="servlet_rest_hibernate" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="servlet_rest (1)" target="17" />
+      <module name="servlet_rest (2)" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
